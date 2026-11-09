@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>VME - Vehicle Mechanic Electrician | On-Demand Auto Assistance</title>
+  <meta name="description" content="VME (Vehicle Mechanic Electrician) provides 24/7 on-demand vehicle breakdown, repair, maintenance, and electrical diagnostics for Bikes, Scooters, Cars, EVs and Commercial Vehicles.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2290%22%3E%E2%9A%99%EF%B8%8F%3C%2Ftext%3E%3C%2Fsvg%3E">
+</head>
+<body>
+
+  <!-- App Shell Container -->
+  <div class="app-container">
+
+    <!-- ==========================================================================
+         TOP NAVIGATION BAR
+         ========================================================================== -->
+    <header class="top-navbar" id="topNavbar">
+      <!-- Brand Logo with Gear, Spanner, Battery -->
+      <div class="brand-wrapper" id="brandLogoClick" title="VME Home">
+        <div class="brand-logo-badge" aria-hidden="true">
+          <svg class="brand-logo-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="vmeBadgeGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#e0f2fe" stop-opacity="1"/>
+                <stop offset="100%" stop-color="#fef3c7" stop-opacity="1"/>
+              </linearGradient>
+            </defs>
+            <g transform="translate(10 10)">
+              <rect x="18" y="30" width="68" height="38" rx="10" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.9)" stroke-width="3"/>
+              <rect x="86" y="42" width="10" height="14" rx="3" fill="rgba(255,255,255,0.9)"/>
+              <g transform="translate(26 24)">
+                <circle cx="28" cy="28" r="19" fill="none" stroke="url(#vmeBadgeGlow)" stroke-width="4.5"/>
+                <g fill="url(#vmeBadgeGlow)">
+                  <rect x="26" y="0" width="4" height="10" rx="2"/>
+                  <rect x="26" y="42" width="4" height="10" rx="2"/>
+                  <rect x="0" y="26" width="10" height="4" rx="2"/>
+                  <rect x="42" y="26" width="10" height="4" rx="2"/>
+                  <rect x="7" y="7" width="4" height="10" rx="2" transform="rotate(-45 9 12)"/>
+                  <rect x="41" y="7" width="4" height="10" rx="2" transform="rotate(45 43 12)"/>
+                  <rect x="7" y="41" width="4" height="10" rx="2" transform="rotate(45 9 46)"/>
+                  <rect x="41" y="41" width="4" height="10" rx="2" transform="rotate(-45 43 46)"/>
+                </g>
+                <circle cx="28" cy="28" r="8" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.9)" stroke-width="2.5"/>
+              </g>
+              <g transform="translate(58 18)">
+                <path d="M0 16 L18 34 L24 28 L38 42 L32 48 L44 60 L36 68 L24 56 L20 60 L8 48 L14 42 L0 28 Z" fill="rgba(255,255,255,0.9)"/>
+                <circle cx="18" cy="26" r="8" fill="rgba(255,255,255,0.26)" stroke="rgba(255,255,255,0.9)" stroke-width="2"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">VME</span>
+          <span class="brand-subtitle">Vehicle • Mechanic • Electrician</span>
+        </div>
+      </div>
+
+      <!-- Nav Actions Right -->
+      <div class="nav-actions">
+        <!-- Role Indicator Pill -->
+        <div class="role-badge-pill" id="roleBadgePill" title="Signed-in account role">
+          <span>👤</span>
+          <span>Customer Mode</span>
+        </div>
+
+        <!-- Theme Toggle Button -->
+        <button class="nav-icon-btn" id="themeToggleBtn" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+          ☀️
+        </button>
+
+        <!-- Quick Profile Pill -->
+        <div class="user-quick-pill" id="userQuickPill" title="View Profile">
+          <div class="user-avatar-sm" id="topNavAvatar">👨‍💼</div>
+          <span class="user-name-sm">Guest</span>
+        </div>
+
+        <!-- Drawer Hamburger Menu Button -->
+        <button class="nav-icon-btn" id="menuToggleBtn" title="Open Main Menu" aria-label="Open Menu">
+          ☰
+          <span class="badge-dot"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ==========================================================================
+         SIDE DRAWER MENU
+         ========================================================================== -->
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+    <aside class="side-drawer" id="sideDrawer" aria-label="Sidebar Menu">
+      <div class="drawer-header">
+        <div class="drawer-user-info">
+          <div class="drawer-avatar" id="drawerUserAvatar">👨‍💼</div>
+          <div>
+            <div class="drawer-title" id="drawerUserName">Guest</div>
+            <div class="drawer-role" id="drawerUserRole">Not signed in</div>
+          </div>
+        </div>
+        <button class="drawer-close-btn" id="drawerCloseBtn" type="button" title="Close Menu" aria-label="Close Menu">✕</button>
+      </div>
+
+      <ul class="drawer-menu-list">
+        <li class="drawer-menu-item" data-view="home">
+          <span class="menu-icon">🏠</span>
+          <span>Home Dashboard</span>
+        </li>
+        <li class="drawer-menu-item" data-view="orders">
+          <span class="menu-icon">📦</span>
+          <span>Orders & Live Tracking</span>
+          <span class="menu-badge">1 Active</span>
+        </li>
+        <li class="drawer-menu-item" data-view="offers">
+          <span class="menu-icon">🏷️</span>
+          <span>Offers & Service Info</span>
+        </li>
+        <li class="drawer-menu-item" data-view="contact">
+          <span class="menu-icon">📞</span>
+          <span>Contact Us & Live Care</span>
+        </li>
+        <li class="drawer-menu-item" data-view="help">
+          <span class="menu-icon">❓</span>
+          <span>Help / Support & FAQs</span>
+        </li>
+        <li class="drawer-menu-item" data-view="reviews">
+          <span class="menu-icon">⭐</span>
+          <span>Customer Reviews & Ratings</span>
+        </li>
+        <li class="drawer-menu-item" data-view="settings">
+          <span class="menu-icon">⚙️</span>
+          <span>Settings & Permissions</span>
+        </li>
+        <li class="drawer-divider"></li>
+        <li>
+          <button class="drawer-menu-item drawer-auth-button" id="drawerLoginBtn" type="button">
+            <span class="menu-icon">🔑</span>
+            <span>Switch Account / Login</span>
+          </button>
+        </li>
+      </ul>
+
+      <div class="drawer-footer">
+        <button class="btn-drawer-logout" id="drawerLogoutBtn" type="button">
+          <span>🚪</span>
+          <span>Log Out of VME</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT AREA
+         ========================================================================== -->
+    <main class="main-wrapper" id="mainWrapper">
+
+      <!-- Dynamic Active Order Quick Floating Banner (If service request ongoing) -->
+      <div id="activeOrderBannerContainer"></div>
+
+      <!-- ==========================================================================
+           VIEW: HOME
+           ========================================================================== -->
+      <section class="app-view active" id="view-home">
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+          <div class="hero-tag">
+            <span>⚡</span> <span>India's Premier Vehicle Assistance Platform</span>
+          </div>
+          <h1 class="hero-title">
+            Mechanic & Electrician<br>
+            At Your Fingertips.
+          </h1>
+          <p class="hero-desc">
+            Stranded on the highway? Dead battery, tyre puncture, EV BMS fault or routine general servicing? Certified mechanics and electricians reach your live location in 15–30 minutes.
+          </p>
+          <div class="hero-actions">
+            <button class="btn-sos" onclick="navigateTo('service'); selectCategory('emergency');">
+              <span>🚨</span>
+              <span>Emergency Breakdown SOS</span>
+            </button>
+            <button class="btn-primary" onclick="navigateTo('service')">
+              <span>🔧</span>
+              <span>Book Service / Repair</span>
+            </button>
+            <button class="btn-secondary" onclick="navigateTo('orders')">
+              <span>📍</span>
+              <span>Live Radar Tracking</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Role Demonstration Bar -->
+        <div class="role-switch-bar">
+          <div class="role-switch-title">
+            <span>🔄 Switch Mode View:</span>
+          </div>
+          <div class="role-tabs-segmented">
+            <button class="role-seg-btn active" data-role="customer">👤 Customer View</button>
+            <button class="role-seg-btn" data-role="mechanic">👨‍🔧 Mechanic</button>
+            <button class="role-seg-btn" data-role="electrician">⚡ Electrician</button>
+          </div>
+        </div>
+
+        <!-- Customer View: 5 Service Categories Grid -->
+        <div class="customer-only">
+          <div class="section-header">
+            <h2 class="section-title">
+              <span>🛠️</span> <span>Select Service Category</span>
+            </h2>
+            <p class="section-subtitle">
+              Choose from 5 specialized service packages tailored to your vehicle
+            </p>
+          </div>
+
+          <div class="quick-categories-grid">
+            <!-- Emergency Service -->
+            <button type="button" class="cat-card-tile emergency-tile" onclick="startBookingWithCategory('emergency')">
+              <div class="cat-icon-badge">🚨</div>
+              <div class="cat-tile-title">Emergency Service</div>
+              <div class="cat-tile-desc">
+                Breakdowns, roadside assistance, towing and vehicle recovery.
+              </div>
+              <div class="cat-tile-arrow">
+                <span>Roadside Assistance</span> <span>→</span>
+              </div>
+            </button>
+
+            <!-- Basic Services -->
+            <button type="button" class="cat-card-tile" onclick="startBookingWithCategory('basic')">
+              <div class="cat-icon-badge">🛢️</div>
+              <div class="cat-tile-title">Basic Services</div>
+              <div class="cat-tile-desc">
+                Routine maintenance for ICE and electric vehicles.
+              </div>
+              <div class="cat-tile-arrow">
+                <span>Periodic Care</span> <span>→</span>
+              </div>
+            </button>
+
+            <!-- Repair -->
+            <button type="button" class="cat-card-tile" onclick="startBookingWithCategory('repair')">
+              <div class="cat-icon-badge">🔧</div>
+              <div class="cat-tile-title">Repair</div>
+              <div class="cat-tile-desc">
+                Mechanical, electrical and vehicle diagnostic work.
+              </div>
+              <div class="cat-tile-arrow">
+                <span>Diagnostics & Overhaul</span> <span>→</span>
+              </div>
+            </button>
+
+            <!-- Replace -->
+            <button type="button" class="cat-card-tile" onclick="startBookingWithCategory('replace')">
+              <div class="cat-icon-badge">⚙️</div>
+              <div class="cat-tile-title">Replace</div>
+              <div class="cat-tile-desc">
+                Replacement parts are quoted separately for customer approval.
+              </div>
+              <div class="cat-tile-arrow">
+                <span>Parts quoted separately</span> <span>→</span>
+              </div>
+            </button>
+
+            <!-- Safety & Comfort -->
+            <button type="button" class="cat-card-tile" onclick="startBookingWithCategory('safety_comfort')">
+              <div class="cat-icon-badge">❄️</div>
+              <div class="cat-tile-title">Safety & Comfort</div>
+              <div class="cat-tile-desc">
+                Driving safety, comfort, cabin and bodywork services.
+              </div>
+              <div class="cat-tile-arrow">
+                <span>Climate & Safety</span> <span>→</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mechanic Console Dashboard (When Mechanic role is active) -->
+        <div class="mechanic-only" id="mechanicDashboardContent" style="display: none;"></div>
+
+        <!-- Electrician Console Dashboard (When Electrician role is active) -->
+        <div class="electrician-only" id="electricianDashboardContent" style="display: none;"></div>
+      </section>
+
+      <!-- ==========================================================================
+           VIEW: VEHICLE (Garage Management)
+           ========================================================================== -->
+      <section class="app-view" id="view-vehicle">
+        <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+          <div>
+            <h2 class="section-title"><span>🚘</span> <span>My Vehicle Garage</span></h2>
+            <p class="section-subtitle">Manage your registered bikes, cars, EVs and commercial vehicles</p>
+          </div>
+          <button class="btn-primary" onclick="addNewVehicleModal()">
+            <span>➕</span> <span>Add New Vehicle</span>
+          </button>
+        </div>
+
+        <div id="garageVehiclesList"></div>
+      </section>
+
+      <!-- ==========================================================================
+           VIEW: SERVICE & REPAIR BOOKING WIZARD (7 Detailed Steps)
+           ========================================================================== -->
+      <section class="app-view" id="view-service">
+        <div class="section-header">
+          <h2 class="section-title"><span>🛠️</span> <span>Service & Breakdown Booking</span></h2>
+          <p class="section-subtitle">Configure your vehicle, problem category, location and payment</p>
+        </div>
+
+        <div class="booking-wizard-card">
+          <!-- Wizard Stepper Indicator -->
+          <div class="wizard-stepper" id="wizardStepper">
+            <div class="wizard-step-node active" data-step="1">
+              <div class="step-node-bubble">1</div>
+              <div class="step-node-label">Type</div>
+            </div>
+            <div class="wizard-step-node" data-step="2">
+              <div class="step-node-bubble">2</div>
+              <div class="step-node-label">Brand & Model</div>
+            </div>
+            <div class="wizard-step-node" data-step="3">
+              <div class="step-node-bubble">3</div>
+              <div class="step-node-label">Category</div>
+            </div>
+            <div class="wizard-step-node" data-step="4">
+              <div class="step-node-bubble">4</div>
+              <div class="step-node-label">Problem</div>
+            </div>
+            <div class="wizard-step-node" data-step="5">
+              <div class="step-node-bubble">5</div>
+              <div class="step-node-label">Location</div>
+            </div>
+            <div class="wizard-step-node" data-step="6">
+              <div class="step-node-bubble">6</div>
+              <div class="step-node-label">Payment</div>
+            </div>
+            <div class="wizard-step-node" data-step="7">
+              <div class="step-node-bubble">7</div>
+              <div class="step-node-label">Status</div>
+            </div>
+          </div>
+
+          <!-- STEP 1: Select Vehicle Type -->
+          <div class="wizard-step-content active" id="wizardStep1">
+            <h3 style="font-size: 1.25rem; font-weight: 700;">Step 1: Select Vehicle Type</h3>
+            <p style="color: var(--text-secondary); font-size: 0.88rem;">Choose the class of vehicle requiring assistance</p>
+            <div class="vehicle-types-grid" id="vehicleTypesGrid"></div>
+          </div>
+
+          <!-- STEP 2: Select Brand & Model -->
+          <div class="wizard-step-content" id="wizardStep2">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+              <div>
+                <h3 style="font-size: 1.25rem; font-weight: 700;">Step 2: Select Brand and Model</h3>
+                <p style="color: var(--text-secondary); font-size: 0.88rem;">All brands and the model examples listed for this vehicle type are shown below</p>
+              </div>
+              <div class="cat-badge-pill" id="currentVehicleTypeBadge"></div>
+            </div>
+
+            <div class="brand-model-selector-wrapper">
+              <div>
+                <div class="form-label" style="margin-bottom: 0.75rem;">Vehicle brands and available models:</div>
+                <div class="models-grid-container" id="modelsGridContainer"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 3: Choose One of Five Service Categories -->
+          <div class="wizard-step-content" id="wizardStep3">
+            <h3 style="font-size: 1.25rem; font-weight: 700;">Step 3: Choose Service Category</h3>
+            <p style="color: var(--text-secondary); font-size: 0.88rem;">Select from the 5 dedicated service programs</p>
+            <div class="categories-select-grid" id="categoriesSelectGrid"></div>
+            <div id="evServiceCategoryReference" class="ev-reference-panel" hidden></div>
+          </div>
+
+          <!-- STEP 4: Select Service Task (Filtered for Category & Vehicle) -->
+          <div class="wizard-step-content" id="wizardStep4">
+            <h3 style="font-size: 1.25rem; font-weight: 700;">Step 4: Select Service Task</h3>
+            <p style="color: var(--text-secondary); font-size: 0.88rem;" id="problemCategorySummary"></p>
+            <div id="evIssueTypeSelector" class="ev-issue-type-selector" hidden></div>
+            <div id="evIssueDetails" class="ev-reference-panel" hidden></div>
+            <div class="problems-list-container" id="problemsListContainer"></div>
+            <output id="evSafetyGuidance" class="ev-safety-guidance" hidden></output>
+          </div>
+
+          <!-- STEP 5: Report & Request Service (Location, Specialist Type) -->
+          <div class="wizard-step-content" id="wizardStep5">
+            <h3 style="font-size: 1.25rem; font-weight: 700;">Step 5: Report & Request Service</h3>
+            <p style="color: var(--text-secondary); font-size: 0.88rem;">Provide location, problem description, and choose technician</p>
+
+            <div id="step5SummaryBox" style="background: var(--bg-input); padding: 1rem 1.25rem; border-radius: var(--radius-md); margin: 1.25rem 0;"></div>
+
+            <div class="form-group" id="registrationNumberGroup">
+              <label class="form-label" for="serviceRegistrationInput">Vehicle registration number:</label>
+              <input type="text" class="form-input" id="serviceRegistrationInput" placeholder="Enter registration number">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="serviceLocationInput">Breakdown / Service Location:</label>
+              <div class="location-picker-box">
+                <div class="location-status-badge">
+                  <span>●</span> <span>In-App Real-time GPS Tracker Active</span>
+                </div>
+                <div class="location-input-row" style="display: flex; gap: 8px;">
+                  <input type="text" class="form-input" id="serviceLocationInput" placeholder="Enter landmark or street address...">
+                  <button class="btn-primary" style="padding: 10px 16px;" onclick="detectCurrentGPS()">
+                    📍 Pinpoint GPS
+                  </button>
+                </div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                  Mechanic can view this exact location directly in the app without needing any third-party maps.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="serviceProblemDescInput">Describe Problem / Specific Symptoms (Optional):</label>
+              <textarea class="form-textarea" id="serviceProblemDescInput" rows="3" placeholder="e.g. White smoke from radiator, unusual rattling sound at 40 km/h, brake lever feels spongy..."></textarea>
+            </div>
+
+            <div class="form-group" id="serviceMediaGroup">
+              <label class="form-label" for="serviceMediaInput">Photo or video (optional):</label>
+              <input class="form-input" type="file" id="serviceMediaInput" accept="image/*,video/*" multiple>
+              <small style="color: var(--text-muted);">Attach relevant photos or videos to help describe the problem.</small>
+            </div>
+
+            <div class="form-group">
+              <p class="form-label">Choose Assigned Specialist Type:</p>
+              <div class="tech-type-cards">
+                <button type="button" class="tech-type-card selected" id="techTypeMechanic" aria-label="Select mechanic" onclick="selectTechnicianType('mechanic')">
+                  <div style="font-size: 2rem;">👨‍🔧</div>
+                  <div style="font-weight: 700; margin-top: 4px;">Mechanic</div>
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Engine, clutch, suspension, brakes, tyres & general mechanical fixes</div>
+                </button>
+                <button type="button" class="tech-type-card" id="techTypeElectrician" aria-label="Select electrician" onclick="selectTechnicianType('electrician')">
+                  <div style="font-size: 2rem;">⚡👨‍💻</div>
+                  <div style="font-weight: 700; margin-top: 4px;">Electrician</div>
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">EV battery pack, BMS diagnostics, wiring short-circuit, sensors & ECU</div>
+                </button>
+              </div>
+              <div id="nearbyTechniciansList" class="nearby-technicians-list" aria-live="polite"></div>
+            </div>
+          </div>
+
+          <!-- STEP 6: Payment Methods -->
+          <div class="wizard-step-content" id="wizardStep6">
+            <h3 style="font-size: 1.25rem; font-weight: 700;">Step 6: Confirm Labor Charge & Payment Method</h3>
+            <p style="color: var(--text-secondary); font-size: 0.88rem;">The labor charge depends on the time of booking. Parts and materials are separate.</p>
+            <div id="laborQuoteSummary" class="settings-card" style="margin: 1rem 0; line-height: 1.7;"></div>
+            <div class="payment-methods-grid" id="paymentMethodsGrid"></div>
+          </div>
+
+          <!-- STEP 7: Submitted Request -> Thanks / Congratulations to Customer -->
+          <div class="wizard-step-content" id="wizardStep7"></div>
+
+          <!-- Wizard Footer Controls -->
+          <div class="wizard-footer-nav" id="wizardFooterNav">
+            <button class="btn-secondary" id="wizardPrevBtn" style="display: none;">
+              <span>← Back</span>
+            </button>
+            <button class="btn-primary" id="wizardNextBtn" style="margin-left: auto;">
+              <span>Next Step</span> <span>→</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           VIEW: REPAIR (Direct Mechanical & Electrical Diagnostics)
+           ========================================================================== -->
+      <section class="app-view" id="view-repair">
+        <div class="section-header">
+          <h2 class="section-title"><span>🔧</span> <span>Direct Repair & Diagnostic Booking</span></h2>
+          <p class="section-subtitle">Troubleshoot abnormal vehicle noises, mechanical wear, and electrical faults</p>
+        </div>
+
+        <div class="hero-banner" style="background: linear-gradient(135deg, rgba(2, 132, 199, 0.15) 0%, rgba(245, 158, 11, 0.1) 100%);">
+          <div class="hero-tag">Specialist Diagnostics</div>
+          <h2 class="hero-title" style="font-size: 1.8rem;">Instant Mechanical & Electrical Overhaul</h2>
+          <p class="hero-desc">
+            Directly connect with master mechanics and certified EV electricians equipped with portable computerized scanners, OBD-II readers, and genuine OEM spares.
+          </p>
+          <button class="btn-primary" onclick="state.bookingDraft.category = 'repair'; state.bookingStep = 1; navigateTo('service');">
+            <span>🚀</span> <span>Start Diagnostic Request</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           VIEW: ORDERS & LIVE TRACKER
+           ========================================================================== -->
+      <section class="app-view" id="view-orders">
+        <div class="section-header">
+          <h2 class="section-title"><span>📦</span> <span>Service Bookings & Radar</span></h2>
+          <p class="section-subtitle">Live ongoing dispatch tracking and service invoice history</p>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 1.5rem;">
+          <button class="btn-primary" id="ordersTabActive" style="flex: 1; padding: 10px;">
+            ● Active Bookings
+          </button>
+          <button class="btn-secondary" id="ordersTabPast" style="flex: 1; padding: 10px;">
+            Past Service History
+          </button>
+        </div>
+
+        <div id="ordersListContainer"></div>
+      </section>
+
+      <!-- ==========================================================================
+           VIEW: OFFERS
+           ========================================================================== -->
+      <section class="app-view" id="view-offers">
+        <div class="section-header">
+          <h2 class="section-title"><span>🏷️</span> <span>Offers & Service Info</span></h2>
+          <p class="section-subtitle">Labor rates depend on booking time. Parts and materials are quoted separately.</p>
+        </div>
+
+        <div class="quick-categories-grid" id="offersGridContainer"></div>
+      </section>
+
+      <!-- ==========================================================================
+           VIEW: CONTACT US & CUSTOMER CARE
+           ========================================================================== -->
+      <section class="app-view" id="view-contact">
+        <div class="section-header">
+          <h2 class="section-title"><span>📞</span> <span>Customer Care & Live Support</span></h2>
+          <p class="section-subtitle">24/7 dedicated automotive hotline and instant in-app support chat</p>
+        </div>
+
+        <div class="settings-grid">
+          <div class="settings-card">
+            <h3 class="settings-card-title"><span>🎧</span> <span>Direct Support Channels</span></h3>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-title">In-App Live Support Chat</div>
+                <div class="setting-desc">Instant automated and agent-assisted triage within the app</div>
+              </div>
+              <button class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="openInAppChat()">
+                Start Chat
+              </button>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-title">24/7 Toll-Free Breakdown Hotline</div>
+                <div class="setting-desc">Direct VoIP audio line: 1800-836-9281 (Toll Free)</div>
+              </div>
+              <button class="btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="openInAppCall('VME Customer Care', 'Support Agent')">
+                Call Support
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           VIEW: HELP / SUPPORT & FAQS
+           ========================================================================== -->
+      <section class="app-view" id="view-help">
+        <div class="section-header">
+          <h2 class="section-title"><span>❓</span> <span>Help Center & FAQs</span></h2>
+          <p class="section-subtitle">Frequently asked questions regarding VME mechanics, electricians, and rules</p>
+        </div>
+
+        <div class="settings-grid">
+          <div class="settings-card">
+            <h3 class="settings-card-title">Frequently Asked Questions</h3>
+            <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 6px;">
+              <div style="font-weight: 700; color: var(--text-main);">Q: How does VME guarantee verified mechanics and electricians?</div>
+              <div style="font-size: 0.85rem; color: var(--text-secondary);">A: All technicians undergo physical garage audits, trade license checks, and background verification before getting onboarded.</div>
+            </div>
+            <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 6px;">
+              <div style="font-weight: 700; color: var(--text-main);">Q: Can I call and chat with the technician directly inside this app?</div>
+              <div style="font-size: 0.85rem; color: var(--text-secondary);">A: Yes! VME features native built-in VoIP calling and real-time chat with live location sharing. No external dialer or apps needed.</div>
+            </div>
+            <div class="setting-row" style="flex-direction: column; align-items: flex-start; gap: 6px;">
+              <div style="font-weight: 700; color: var(--text-main);">Q: How does the technician find my exact breakdown spot?</div>
+              <div style="font-size: 0.85rem; color: var(--text-secondary);">A: Your GPS pin is displayed live on the technician's in-app radar screen with turn-by-turn route calculation.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           VIEW: REVIEWS & RATINGS
+           ========================================================================== -->
+      <section class="app-view" id="view-reviews">
+        <div class="section-header">
+          <h2 class="section-title"><span>⭐</span> <span>Customer Reviews & Ratings</span></h2>
+          <p class="section-subtitle">Real experiences from motorists assisted by VME mechanics and electricians</p>
+        </div>
+
+        <!-- Add Review Box -->
+        <div class="settings-card" style="margin-bottom: 2rem;">
+          <h3 class="settings-card-title"><span>✍️</span> <span>Write a Review</span></h3>
+          <div class="review-form-grid">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="reviewAuthorInput">Your Name</label>
+              <input type="text" class="form-input" id="reviewAuthorInput" placeholder="Your Name" autocomplete="name">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="reviewVehicleInput">Vehicle</label>
+              <input type="text" class="form-input" id="reviewVehicleInput" placeholder="Vehicle (e.g. Royal Enfield, Nexon EV)">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="reviewCommentInput">Your Review</label>
+            <textarea class="form-textarea" id="reviewCommentInput" rows="2" placeholder="Describe your experience with the mechanic / electrician..."></textarea>
+          </div>
+          <button class="btn-primary" style="margin-top: 1rem;" onclick="submitNewReview()">
+            Submit Rating & Review
+          </button>
+        </div>
+
+        <div id="reviewsListContainer"></div>
+      </section>
+
+      <!-- ==========================================================================
+           VIEW: SETTINGS & PERMISSIONS CENTER
+           ========================================================================== -->
+      <section class="app-view" id="view-settings">
+        <div class="section-header">
+          <h2 class="section-title"><span>⚙️</span> <span>Settings & Privacy Center</span></h2>
+          <p class="section-subtitle">Manage personal information, privacy, permissions, and security</p>
+        </div>
+
+        <div class="settings-grid">
+          <!-- 1. Location Privacy -->
+          <div class="settings-card">
+            <h3 class="settings-card-title"><span>📍</span> <span>Location Privacy</span></h3>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 0.75rem;">
+              Choose how VME accesses your device coordinates for breakdown dispatch:
+            </p>
+            <div class="location-privacy-radios">
+              <div class="radio-pill-item location-privacy-radio selected" data-val="while_using">
+                <span>🟢</span>
+                <div>
+                  <div style="font-weight: 700;">Allow location while using app</div>
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Only tracks coordinates when an active service or SOS is in progress</div>
+                </div>
+              </div>
+              <div class="radio-pill-item location-privacy-radio" data-val="always">
+                <span>🔵</span>
+                <div>
+                  <div style="font-weight: 700;">Always allow</div>
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Enables background crash detection & proximity roadside alerts</div>
+                </div>
+              </div>
+              <div class="radio-pill-item location-privacy-radio" data-val="never">
+                <span>🔴</span>
+                <div>
+                  <div style="font-weight: 700;">Don't allow</div>
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Requires manual street address entry for every service request</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Device Permissions (Contact, Camera, Microphone, Speaker) -->
+          <div class="settings-card">
+            <h3 class="settings-card-title"><span>🛡️</span> <span>App Permissions</span></h3>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-title">Contact Permission</div>
+                <div class="setting-desc">Permits syncing trusted emergency contacts for roadside SOS alerts</div>
+              </div>
+              <label class="switch-toggle">
+                <input type="checkbox" id="toggleContactPerm" aria-label="Enable contact permission" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-title">Camera, Microphone & Speaker</div>
+                <div class="setting-desc">Required for in-app VoIP direct technician calling and breakdown photos</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <button class="btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;" onclick="testCameraAndMic()">Test Audio</button>
+                <label class="switch-toggle">
+                  <input type="checkbox" id="toggleCameraPerm" aria-label="Enable camera and microphone permissions" checked>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-title">Automotive Diagnostics Data Sharing</div>
+                <div class="setting-desc">Share anonymized engine & BMS error logs to accelerate repair dispatch</div>
+              </div>
+              <label class="switch-toggle">
+                <input type="checkbox" id="toggleDataShare" aria-label="Enable automotive diagnostics data sharing">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 3. Banking Information & Saved Payment Methods -->
+          <div class="settings-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3 class="settings-card-title" style="margin: 0;"><span>💳</span> <span>Banking Information</span></h3>
+              <button class="btn-primary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="addNewPaymentMethod()">
+                + Add Method
+              </button>
+            </div>
+            <div id="profilePaymentMethodsList"></div>
+          </div>
+
+          <!-- 4. Login & Security -->
+          <div class="settings-card">
+            <h3 class="settings-card-title"><span>🔒</span> <span>Login & Security</span></h3>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-title">Change Password</div>
+                <div class="setting-desc">Update your login security credentials</div>
+              </div>
+              <button class="btn-secondary" style="padding: 6px 14px; font-size: 0.82rem;" onclick="openChangePasswordModal()">
+                Change
+              </button>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-title">Biometric Login</div>
+                <div class="setting-desc">Use Fingerprint / Face ID to authenticate quick logins</div>
+              </div>
+              <label class="switch-toggle">
+                <input type="checkbox" id="toggleBiometric" aria-label="Enable biometric login" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-title">Two-Factor Authentication (2FA)</div>
+                <div class="setting-desc">Receive SMS OTP before sensitive profile changes</div>
+              </div>
+              <label class="switch-toggle">
+                <input type="checkbox" id="toggle2FA" aria-label="Enable two-factor authentication" checked>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 5. Connected Accounts -->
+          <div class="settings-card">
+            <h3 class="settings-card-title"><span>🔗</span> <span>Connected Accounts</span></h3>
+            <div class="connected-accounts-list">
+              <div class="account-connect-item">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-size: 1.5rem;">🌐</span>
+                  <div>
+                    <div style="font-weight: 700;">Google Account</div>
+                    <div id="connectedGoogleEmail" style="font-size: 0.75rem; color: var(--emerald);">Not connected</div>
+                  </div>
+                </div>
+                <button class="btn-secondary" style="padding: 4px 10px; font-size: 0.78rem;" id="btnConnect_google" onclick="toggleConnectedAccount('google')">Disconnect</button>
+              </div>
+
+              <div class="account-connect-item">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-size: 1.5rem;">🍎</span>
+                  <div>
+                    <div style="font-weight: 700;">Apple ID</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Sign in with Apple</div>
+                  </div>
+                </div>
+                <button class="btn-primary" style="padding: 4px 10px; font-size: 0.78rem;" id="btnConnect_apple" onclick="toggleConnectedAccount('apple')">Connect</button>
+              </div>
+
+              <div class="account-connect-item">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-size: 1.5rem;">💬</span>
+                  <div>
+                    <div style="font-weight: 700;">WhatsApp Notifications</div>
+                    <div style="font-size: 0.75rem; color: var(--emerald);">+91 98765 43210 (Active)</div>
+                  </div>
+                </div>
+                <button class="btn-secondary" style="padding: 4px 10px; font-size: 0.78rem;" id="btnConnect_whatsapp" onclick="toggleConnectedAccount('whatsapp')">Disconnect</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. Account Actions (Delete Account) -->
+          <div class="settings-card" style="border-color: rgba(239, 68, 68, 0.4);">
+            <h3 class="settings-card-title" style="color: var(--danger);"><span>⚠️</span> <span>Danger Zone</span></h3>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 1rem;">
+              Permanently wipe all vehicle garage records, service receipts, and user profile data.
+            </p>
+            <button class="btn-secondary" style="color: var(--danger); border-color: var(--danger);" onclick="confirmDeleteAccount()">
+              🗑️ Delete VME Account Permanently
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           VIEW: PROFILE
+           ========================================================================== -->
+      <section class="app-view" id="view-profile">
+        <div class="section-header">
+          <h2 class="section-title"><span>👤</span> <span>User Profile</span></h2>
+          <p class="section-subtitle">Account ID, personal credentials, and automotive preferences</p>
+        </div>
+
+        <div class="profile-header-card">
+          <div class="profile-avatar-large" id="profileHeaderAvatar">👨‍💼</div>
+          <div style="flex: 1;">
+            <h2 id="profileHeaderName" style="font-size: 1.6rem; font-weight: 800; color: var(--text-main);">Madhu MK</h2>
+            <div id="profileHeaderUsername" style="font-size: 0.88rem; color: var(--primary-light); font-weight: 600;">@madhu_mk • CUSTOMER</div>
+            <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">
+              VME Account ID: <strong id="profileHeaderId" style="color: var(--text-main); font-family: monospace;">VME-CUST-8492</strong>
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 1rem; flex-wrap: wrap;">
+              <button class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="openEditProfileModal()">
+                ✏️ Edit Profile
+              </button>
+              <button class="btn-secondary" style="padding: 8px 14px; font-size: 0.85rem;" onclick="changeAvatar()">
+                🖼️ Change Avatar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-card" style="margin-bottom: 2rem;">
+          <h3 class="settings-card-title">Personal Credentials & Information</h3>
+          <div class="profile-details-grid" id="profileDetailsGrid"></div>
+        </div>
+
+        <!-- Legal & Rules Links -->
+        <div class="settings-card">
+          <h3 class="settings-card-title">Legal, Privacy & Support</h3>
+          <div class="setting-row">
+            <div class="setting-title">Terms & Conditions</div>
+            <button class="btn-secondary" style="padding: 4px 10px; font-size: 0.78rem;" onclick="openStaticModal('terms')">View Terms</button>
+          </div>
+          <div class="setting-row">
+            <div class="setting-title">Privacy Policy</div>
+            <button class="btn-secondary" style="padding: 4px 10px; font-size: 0.78rem;" onclick="openStaticModal('privacy')">View Policy</button>
+          </div>
+          <div class="setting-row">
+            <div class="setting-title">Help & Support Center</div>
+            <button class="btn-secondary" style="padding: 4px 10px; font-size: 0.78rem;" onclick="navigateTo('help')">Open FAQs</button>
+          </div>
+          <div class="setting-row">
+            <div class="setting-title" style="color: var(--danger);">Log Out</div>
+            <button class="btn-secondary" type="button" style="padding: 4px 10px; font-size: 0.78rem; color: var(--danger); border-color: rgba(239, 68, 68, 0.3);" onclick="logout()">Log Out</button>
+          </div>
+          <div class="setting-row">
+            <div class="setting-title" style="color: var(--danger);">Delete Account</div>
+            <button class="btn-secondary" style="padding: 4px 10px; font-size: 0.78rem; color: var(--danger); border-color: var(--danger);" onclick="confirmDeleteAccount()">Delete Account</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           VIEW: ABOUT VME
+           ========================================================================== -->
+      <section class="app-view" id="view-about">
+        <div class="section-header">
+          <h2 class="section-title"><span>ℹ️</span> <span>About VME</span></h2>
+          <p class="section-subtitle">Vehicle Mechanic Electrician Technology Platform</p>
+        </div>
+
+        <div class="hero-banner">
+          <div class="hero-tag">Mission</div>
+          <h2 class="hero-title">Empowering Stranded Drivers & Professional Technicians</h2>
+          <p class="hero-desc">
+            VME bridges the gap between motorists facing sudden vehicle failures and verified roadside mechanics and high-voltage auto electricians. With native in-app VoIP calling, real-time live radar maps, transparent pricing, and instant dispatching, no driver is ever left stranded.
+          </p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ==========================================================================
+         BASE NAVIGATION BAR (Fixed at bottom on mobile / floating dock on desktop)
+         ========================================================================== -->
+    <nav class="base-navbar" id="baseNavbar" aria-label="Bottom Navigation">
+      <div class="base-nav-item active" data-view="home" title="Home">
+        <span class="base-nav-icon">🏠</span>
+        <span class="base-nav-label">Home</span>
+      </div>
+      <div class="base-nav-item" data-view="vehicle" title="Vehicle Garage">
+        <span class="base-nav-icon">🚘</span>
+        <span class="base-nav-label">Vehicle</span>
+      </div>
+
+      <!-- Center Floating SOS Button -->
+      <button class="base-nav-sos-btn" id="baseSosBtn" title="Emergency SOS" aria-label="Emergency SOS">
+        <span class="sos-icon">🚨</span>
+        <span>SOS</span>
+      </button>
+
+      <div class="base-nav-item" data-view="service" title="Services">
+        <span class="base-nav-icon">🛠️</span>
+        <span class="base-nav-label">Service</span>
+      </div>
+      <div class="base-nav-item" data-view="repair" title="Diagnostics & Repair">
+        <span class="base-nav-icon">🔧</span>
+        <span class="base-nav-label">Repair</span>
+      </div>
+      <div class="base-nav-item" data-view="profile" title="Profile">
+        <span class="base-nav-icon">👤</span>
+        <span class="base-nav-label">Profile</span>
+      </div>
+    </nav>
+
+  </div><!-- /app-container -->
+
+  <!-- ==========================================================================
+       MODAL 1: IN-APP DIRECT VOIP CALLING SCREEN
+       ========================================================================== -->
+  <dialog class="call-modal-backdrop" id="callModal" aria-labelledby="callerNameText" aria-describedby="callerRoleText">
+    <div class="call-card">
+      <div class="call-badge-live">
+        <span class="banner-pulse-dot"></span>
+        <span>IN-APP ENCRYPTED VOIP CALL</span>
+      </div>
+
+      <div class="caller-avatar-circle" id="callerAvatarDisplay">👨‍🔧</div>
+      <h3 style="font-size: 1.4rem; font-weight: 800; color: #fff;" id="callerNameText">Rajesh Sharma</h3>
+      <p style="font-size: 0.82rem; color: var(--primary-light); margin-top: 2px;" id="callerRoleText">
+        Mechanic • Connected via VME In-App VoIP
+      </p>
+
+      <!-- Sound Waves Visualizer -->
+      <div class="sound-waves-wrapper">
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+      </div>
+
+      <div class="call-timer" id="callTimerDisplay">00:00</div>
+
+      <div class="call-controls-row">
+        <button class="call-btn-round" id="callMuteBtn" type="button" title="Mute Microphone" aria-label="Mute Microphone">
+          🎙️
+        </button>
+        <button class="call-btn-round active" id="callSpeakerBtn" type="button" title="Speakerphone" aria-label="Toggle Speakerphone">
+          🔊
+        </button>
+        <button class="call-btn-round end-call" id="callEndBtn" type="button" title="End Call" aria-label="End Call">
+          📵
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ==========================================================================
+       MODAL 2: IN-APP REAL-TIME LIVE CHAT SCREEN
+       ========================================================================== -->
+  <dialog class="chat-modal-backdrop" id="chatModal" aria-labelledby="chatHeaderName">
+    <div class="chat-card">
+      <div class="chat-header">
+        <div class="chat-user-meta">
+          <div class="chat-user-avatar">👨‍🔧</div>
+          <div>
+            <div style="font-weight: 700; font-size: 1rem;" id="chatHeaderName">Rajesh Sharma</div>
+            <div style="font-size: 0.72rem; color: var(--emerald);" id="chatHeaderRole">Mechanic • Active Now</div>
+          </div>
+        </div>
+        <button class="drawer-close-btn" id="chatCloseBtn" type="button" aria-label="Close Chat" style="width: 32px; height: 32px;">✕</button>
+      </div>
+
+      <div class="chat-messages-body" id="chatMessagesBody"></div>
+
+      <!-- Quick Canned Chips -->
+      <div class="chat-quick-chips">
+        <button class="quick-chip-btn" onclick="sendQuickChat('Where are you right now?')">Where are you?</button>
+        <button class="quick-chip-btn" onclick="sendQuickChat('I am stranded on the flyover.')">Stranded on flyover</button>
+        <button class="quick-chip-btn" onclick="sendQuickChat('Carrying spare battery?')">Carrying battery?</button>
+        <button class="quick-chip-btn" onclick="sendQuickChat('Hazard lights are ON.')">Hazard lights ON</button>
+      </div>
+
+      <div class="chat-input-bar">
+        <button class="chat-location-btn" id="chatSendLocationBtn" type="button" title="Send Live Location Coordinates" aria-label="Send Live Location">
+          📍
+        </button>
+        <input type="text" class="chat-input-field" id="chatInputField" aria-label="Message to technician" placeholder="Type a message to technician..." autocomplete="off">
+        <button class="chat-send-btn" id="chatSendBtn" type="button" title="Send" aria-label="Send Message">
+          ➤
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ==========================================================================
+       MODAL 3: AUTHENTICATION (Login & Register for Customer, Mechanic, Electrician)
+       ========================================================================== -->
+  <dialog class="auth-modal-backdrop" id="authModal" aria-label="VME authentication">
+    <div class="auth-modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+        <div class="brand-wrapper" style="gap: 6px;">
+          <div class="brand-logo-badge" aria-hidden="true" style="padding: 4px 8px;">
+            <svg class="brand-logo-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="vmeBadgeGlowAuth" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#e0f2fe" stop-opacity="1"/>
+                  <stop offset="100%" stop-color="#fef3c7" stop-opacity="1"/>
+                </linearGradient>
+              </defs>
+              <g transform="translate(10 10)">
+                <rect x="18" y="30" width="68" height="38" rx="10" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.9)" stroke-width="3"/>
+                <rect x="86" y="42" width="10" height="14" rx="3" fill="rgba(255,255,255,0.9)"/>
+                <g transform="translate(26 24)">
+                  <circle cx="28" cy="28" r="19" fill="none" stroke="url(#vmeBadgeGlowAuth)" stroke-width="4.5"/>
+                  <g fill="url(#vmeBadgeGlowAuth)">
+                    <rect x="26" y="0" width="4" height="10" rx="2"/>
+                    <rect x="26" y="42" width="4" height="10" rx="2"/>
+                    <rect x="0" y="26" width="10" height="4" rx="2"/>
+                    <rect x="42" y="26" width="10" height="4" rx="2"/>
+                    <rect x="7" y="7" width="4" height="10" rx="2" transform="rotate(-45 9 12)"/>
+                    <rect x="41" y="7" width="4" height="10" rx="2" transform="rotate(45 43 12)"/>
+                    <rect x="7" y="41" width="4" height="10" rx="2" transform="rotate(45 9 46)"/>
+                    <rect x="41" y="41" width="4" height="10" rx="2" transform="rotate(-45 43 46)"/>
+                  </g>
+                  <circle cx="28" cy="28" r="8" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.9)" stroke-width="2.5"/>
+                </g>
+                <g transform="translate(58 18)">
+                  <path d="M0 16 L18 34 L24 28 L38 42 L32 48 L44 60 L36 68 L24 56 L20 60 L8 48 L14 42 L0 28 Z" fill="rgba(255,255,255,0.9)"/>
+                  <circle cx="18" cy="26" r="8" fill="rgba(255,255,255,0.26)" stroke="rgba(255,255,255,0.9)" stroke-width="2"/>
+                </g>
+              </g>
+            </svg>
+          </div>
+          <span style="font-family: var(--font-heading); font-size: 1.2rem; font-weight: 800;">VME Security</span>
+        </div>
+        <button class="drawer-close-btn" id="authCloseBtn" type="button" aria-label="Close Authentication" style="width: 32px; height: 32px;">✕</button>
+      </div>
+
+      <!-- Auth Tab Switcher (Login vs Register) -->
+      <div class="auth-tab-switch">
+        <button class="auth-tab-btn active" id="authTabLogin" type="button">Login</button>
+        <button class="auth-tab-btn" id="authTabRegister" type="button">Register</button>
+      </div>
+
+      <!-- ================= LOGIN FORM ================= -->
+      <div id="loginFormContainer">
+        <form onsubmit="handleLoginSubmit(event)">
+          <div class="form-group">
+            <label class="form-label" for="loginRoleSelect">Role Category:</label>
+            <select class="form-select" id="loginRoleSelect">
+              <option value="customer">Customer</option>
+              <option value="mechanic">Mechanic</option>
+              <option value="electrician">Electrician</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="loginEmailPhoneInput" id="loginIdentifierLabel">Email or Mobile Number:</label>
+            <input type="text" class="form-input" id="loginEmailPhoneInput" placeholder="name@domain.com or 9876543210" autocomplete="username" required>
+            <div id="loginIdentifierHint" style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 4px; display: none;"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="loginPasswordInput">Password:</label>
+            <div class="password-input-wrapper">
+              <input type="password" class="form-input" id="loginPasswordInput" placeholder="Enter your password" autocomplete="current-password" required>
+              <button type="button" class="eye-toggle-btn" data-target="loginPasswordInput" title="Show / Hide Password">
+                👁️
+              </button>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-bottom: 1.25rem;">
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+              <input type="checkbox" id="loginRememberMe" checked> Remember me
+            </label>
+            <button type="button" style="color: var(--primary-light);" onclick="switchAuthTab('reset')">Forgot Password?</button>
+          </div>
+
+          <button type="submit" class="btn-primary" style="width: 100%;">
+            Log In to VME
+          </button>
+        </form>
+      </div>
+
+      <!-- ================= REGISTRATION FORM ================= -->
+      <div id="registerFormContainer" style="display: none;">
+        <form onsubmit="handleRegisterSubmit(event)">
+          <div class="form-group">
+            <label class="form-label" for="regRoleSelect">Registering As:</label>
+            <select class="form-select" id="regRoleSelect">
+              <option value="customer">Customer</option>
+              <option value="mechanic">Mechanic</option>
+              <option value="electrician">Electrician</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regFullNameInput">Full Name:</label>
+            <input type="text" class="form-input" id="regFullNameInput" placeholder="e.g. Ramesh Kumar" maxlength="100" autocomplete="name" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regUsernameInput">Username:</label>
+            <input type="text" class="form-input" id="regUsernameInput" placeholder="e.g. ramesh_k" minlength="3" maxlength="30" autocomplete="username" required>
+          </div>
+
+          <div class="auth-form-grid">
+            <div class="form-group">
+              <label class="form-label" for="regEmailInput">Email Address:</label>
+              <input type="email" class="form-input" id="regEmailInput" placeholder="ramesh@example.com" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="regPhoneInput">Mobile Number:</label>
+              <input type="tel" class="form-input" id="regPhoneInput" placeholder="+91 98765 00000" autocomplete="tel" required>
+            </div>
+          </div>
+
+          <!-- Specific Fields for Mechanic -->
+          <div id="mechanicExtraFields" style="display: none;">
+            <div class="form-group">
+              <label class="form-label" for="mechanicWorkshopName">Workshop / Garage Name:</label>
+              <input type="text" class="form-input" id="mechanicWorkshopName" placeholder="e.g. Balaji Multi-Brand Garage">
+            </div>
+            <div class="auth-form-grid">
+              <div class="form-group">
+                <label class="form-label" for="mechanicExperience">Experience (Years):</label>
+                <input type="number" class="form-input" id="mechanicExperience" placeholder="e.g. 8" value="8">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="mechanicCity">City:</label>
+                <input type="text" class="form-input" id="mechanicCity" placeholder="e.g. Bengaluru" value="Bengaluru">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mechanicServiceArea">Service Area Limit:</label>
+              <input type="text" class="form-input" id="mechanicServiceArea" placeholder="e.g. 15 km radius" value="15 km radius">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="mechanicSpecializations">Vehicle Specializations:</label>
+              <input type="text" class="form-input" id="mechanicSpecializations" placeholder="Bikes, Scooters, Cars, Commercial" value="Bikes, Scooters, Cars">
+            </div>
+          </div>
+
+          <!-- Specific Fields for Electrician -->
+          <div id="electricianExtraFields" style="display: none;">
+            <div class="form-group">
+              <label class="form-label" for="electricianWorkshopName">Workshop / Mobile Unit Name:</label>
+              <input type="text" class="form-input" id="electricianWorkshopName" placeholder="e.g. VoltDrive EV Electricals">
+            </div>
+            <div class="auth-form-grid">
+              <div class="form-group">
+                <label class="form-label" for="electricianExperience">Experience (Years):</label>
+                <input type="number" class="form-input" id="electricianExperience" placeholder="e.g. 6" value="6">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="electricianCity">City:</label>
+                <input type="text" class="form-input" id="electricianCity" placeholder="e.g. Bengaluru" value="Bengaluru">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="electricianServiceArea">Service Area Limit:</label>
+              <input type="text" class="form-input" id="electricianServiceArea" placeholder="e.g. 20 km radius" value="20 km radius">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="electricianSpecializations">Electrical & EV Specializations:</label>
+              <input type="text" class="form-input" id="electricianSpecializations" placeholder="BMS diagnostics, 12V Aux, High Voltage Harness, ECU" value="BMS diagnostics, High Voltage Harness, ECU">
+            </div>
+          </div>
+
+          <div class="form-group" id="technicianLocationFields" style="display: none;">
+            <button type="button" class="btn-secondary" onclick="captureTechnicianLocation()">📍 Share Workshop Location</button>
+            <div id="technicianLocationStatus" class="technician-location-status">Share your workshop or service-base location to appear in nearby searches. Customers see your distance, not your coordinates.</div>
+            <input type="hidden" id="regLatitude">
+            <input type="hidden" id="regLongitude">
+          </div>
+
+          <!-- Passwords with Eye symbol toggles -->
+          <div class="auth-form-grid">
+            <div class="form-group">
+              <label class="form-label" for="regPasswordInput">Create Password:</label>
+              <div class="password-input-wrapper">
+                <input type="password" class="form-input" id="regPasswordInput" placeholder="At least 12 characters" minlength="12" maxlength="128" autocomplete="new-password" required>
+                <button type="button" class="eye-toggle-btn" data-target="regPasswordInput">👁️</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="regConfirmPasswordInput">Confirm Password:</label>
+              <div class="password-input-wrapper">
+                <input type="password" class="form-input" id="regConfirmPasswordInput" placeholder="Confirm password" minlength="12" maxlength="128" autocomplete="new-password" required>
+                <button type="button" class="eye-toggle-btn" data-target="regConfirmPasswordInput">👁️</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Generate OTP Simulation -->
+          <div class="form-group">
+            <label class="form-label" for="regOtpInput">Email Verification Code:</label>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" class="form-input" id="regOtpInput" placeholder="Enter 6-digit code" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" autocomplete="one-time-code" required>
+              <button type="button" class="btn-secondary" style="white-space: nowrap; padding: 10px 14px;" onclick="generateRegistrationOtp()">
+                Send Code
+              </button>
+            </div>
+          </div>
+
+          <div style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+            <label style="display: flex; align-items: flex-start; gap: 8px; cursor: pointer;">
+              <input type="checkbox" checked required style="margin-top: 3px;">
+              <span>I agree to VME Terms of Service, Privacy Policy and Service Rules.</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary" style="width: 100%;">
+            Complete Registration
+          </button>
+        </form>
+      </div>
+
+      <div id="passwordResetContainer" style="display: none;">
+        <h3 style="margin-bottom: 0.5rem;">Reset your password</h3>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">We will send a time-limited reset code to your verified email address.</p>
+        <div class="form-group">
+          <label class="form-label" for="resetEmailInput">Email address</label>
+          <input type="email" class="form-input" id="resetEmailInput" autocomplete="email" required>
+        </div>
+        <button type="button" class="btn-secondary" style="width: 100%; margin-bottom: 1rem;" onclick="requestPasswordReset()">Send Reset Code</button>
+        <form onsubmit="completePasswordReset(event)">
+          <div class="form-group">
+            <label class="form-label" for="resetCodeInput">Six-digit reset code</label>
+            <input type="text" class="form-input" id="resetCodeInput" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" autocomplete="one-time-code" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="resetPasswordInput">New password</label>
+            <input type="password" class="form-input" id="resetPasswordInput" minlength="12" maxlength="128" autocomplete="new-password" required>
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Update Password</button>
+        </form>
+        <button type="button" class="btn-secondary" style="width: 100%; margin-top: 0.75rem;" onclick="switchAuthTab('login')">Back to Login</button>
+      </div>
+
+      <!-- ================= REGISTRATION SUCCESS & ID DISPLAY ================= -->
+      <div id="registrationSuccessContainer" style="display: none; text-align: center; padding: 0.5rem 0 1rem;">
+        <div style="font-size: 2.75rem; line-height: 1; margin-bottom: 0.75rem;">🎉</div>
+        <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.5rem;" id="regSuccessTitle">
+          Registration Completed!
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.5;" id="regSuccessMessage">
+          Your account is verified. Below is your official Registration ID:
+        </p>
+
+        <div style="background: rgba(14, 165, 233, 0.08); border: 2px dashed var(--primary); border-radius: var(--radius-md); padding: 1.25rem 1rem; margin-bottom: 1.25rem;">
+          <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 0.35rem;" id="regSuccessBadgeLabel">
+            Official Registration ID
+          </div>
+          <div style="font-size: 1.75rem; font-weight: 800; letter-spacing: 2px; color: var(--primary-light); font-family: monospace;" id="assignedRegistrationIdDisplay">
+            VME-MECH-0000
+          </div>
+          <button type="button" class="btn-secondary" style="margin-top: 0.65rem; font-size: 0.78rem; padding: 4px 12px;" onclick="copyRegistrationId()">
+            📋 Copy ID
+          </button>
+        </div>
+
+        <div style="background: rgba(245, 158, 11, 0.1); border-left: 3px solid var(--amber); border-radius: 4px; padding: 0.75rem 1rem; text-align: left; margin-bottom: 1.25rem; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.4;">
+          ⚠️ <strong>Required:</strong> Please note down your Registration ID. You must now submit this Registration ID and your password to sign in.
+        </div>
+
+        <button type="button" class="btn-primary" style="width: 100%;" onclick="proceedToLoginWithRegistrationId()">
+          Submit Registration ID to Log In →
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ==========================================================================
+       MODAL 4: EDIT PROFILE MODAL
+       ========================================================================== -->
+  <dialog class="auth-modal-backdrop" id="editProfileModal" aria-labelledby="editProfileTitle">
+    <div class="auth-modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+        <h3 id="editProfileTitle" style="font-size: 1.2rem; font-weight: 800;">Edit Profile Information</h3>
+        <button class="drawer-close-btn" type="button" aria-label="Close Edit Profile" onclick="closeEditProfileModal()" style="width: 32px; height: 32px;">✕</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="editNameInput">Full Name:</label>
+        <input type="text" class="form-input" id="editNameInput">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="editUsernameInput">Username:</label>
+        <input type="text" class="form-input" id="editUsernameInput">
+      </div>
+      <div class="auth-form-grid">
+        <div class="form-group">
+          <label class="form-label" for="editPhoneInput">Phone Number:</label>
+          <input type="tel" class="form-input" id="editPhoneInput">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="editEmailInput">Email Address:</label>
+          <input type="email" class="form-input" id="editEmailInput">
+        </div>
+      </div>
+      <div class="auth-form-grid">
+        <div class="form-group">
+          <label class="form-label" for="editDobInput">Date of Birth:</label>
+          <input type="date" class="form-input" id="editDobInput">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="editGenderInput">Gender:</label>
+          <select class="form-select" id="editGenderInput">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="editAddressInput">Address:</label>
+        <input type="text" class="form-input" id="editAddressInput">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="editCityInput">City / Location:</label>
+        <input type="text" class="form-input" id="editCityInput">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="editBioInput">Bio / About Me:</label>
+        <textarea class="form-textarea" id="editBioInput" rows="2"></textarea>
+      </div>
+
+      <button class="btn-primary" style="width: 100%; margin-top: 1rem;" onclick="saveProfileChanges()">
+        Save Profile Updates
+      </button>
+    </div>
+  </dialog>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Core Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/ev-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

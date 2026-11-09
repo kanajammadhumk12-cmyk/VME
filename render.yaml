@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: vme-app
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node backend/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: VME_DB_PATH
+        value: /var/data/vme.sqlite
+      - key: AUTH_SECRET
+        generateValue: true
+    disk:
+      name: vme-sqlite-disk
+      mountPath: /var/data
+      sizeGB: 1
+
