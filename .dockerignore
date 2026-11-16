@@ -1,8 +1,15 @@
 node_modules
 npm-debug.log
 .git
+.gitignore
 .env
+.env.*
+.vscode
+Dockerfile
+render.yaml
+Procfile
+README.md
+backend/data/*.sqlite
 backend/data/*.sqlite-shm
 backend/data/*.sqlite-wal
 backend/data/.auth-secret
-

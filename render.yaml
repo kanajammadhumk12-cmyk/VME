@@ -11,11 +11,12 @@ services:
       - key: PORT
         value: 10000
       - key: VME_DB_PATH
-        value: /var/data/vme.sqlite
+        value: ./backend/data/vme.sqlite
       - key: AUTH_SECRET
         generateValue: true
-    disk:
-      name: vme-sqlite-disk
-      mountPath: /var/data
-      sizeGB: 1
-
+    # Note: Render persistent disks require a paid Starter plan ($7/mo + $0.25/GB).
+    # To enable persistent disk, change plan to 'starter' and uncomment the disk section below:
+    # disk:
+    #   name: vme-sqlite-disk
+    #   mountPath: /var/data
+    #   sizeGB: 1

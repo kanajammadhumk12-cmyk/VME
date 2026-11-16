@@ -397,3 +397,11 @@ const VME_DATA = {
     }
   ]
 };
+
+if (typeof window !== 'undefined') {
+  window.VME_DATA = VME_DATA;
+}
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = VME_DATA;
+}
+

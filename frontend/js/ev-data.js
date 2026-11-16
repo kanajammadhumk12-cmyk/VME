@@ -192,3 +192,11 @@ const VME_EV_DATA = {
     'High-voltage systems must only be inspected or repaired by suitably trained professionals.'
   ]
 };
+
+if (typeof window !== 'undefined') {
+  window.VME_EV_DATA = VME_EV_DATA;
+}
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = VME_EV_DATA;
+}
+

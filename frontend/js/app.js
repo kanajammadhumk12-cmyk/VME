@@ -1,3 +1,5 @@
+// @ts-nocheck
+/* global VME_DATA, VME_EV_DATA */
 /**
  * VME - Vehicle Mechanic Electrician
  * Core Application Engine & State Controller
@@ -2155,10 +2157,11 @@ window.openEditProfileModal = function() {
   if (modal) modal.classList.add('active');
 };
 
-window.closeEditProfileModal = function() {
+function closeEditProfileModal() {
   const modal = document.getElementById('editProfileModal');
   if (modal?.open) modal.close();
-};
+}
+window.closeEditProfileModal = closeEditProfileModal;
 
 window.saveProfileChanges = function() {
   state.currentUser.name = document.getElementById('editNameInput').value;
@@ -2518,14 +2521,15 @@ function initAuthModals() {
   }
 }
 
-window.openAuthModal = function(tab = 'login') {
+function openAuthModal(tab = 'login') {
   const modal = document.getElementById('authModal');
   if (modal) {
     if (!modal.open) modal.showModal();
     modal.classList.add('active');
     switchAuthTab(tab);
   }
-};
+}
+window.openAuthModal = openAuthModal;
 
 function closeAuthModal() {
   const modal = document.getElementById('authModal');
@@ -2691,11 +2695,11 @@ async function initializeAuthentication() {
     closeAuthModal();
   } catch (error) {
     openAuthModal('login');
-    showToast(error.message, 'error');
+    console.warn('Initial session check skipped:', error.message);
   }
 }
 
-window.logout = async function() {
+async function logout() {
   try {
     await authApiRequest('/api/auth/logout', {});
   } catch (error) {
@@ -2723,7 +2727,8 @@ window.logout = async function() {
   if (connectedGoogleEmail) connectedGoogleEmail.textContent = 'Not connected';
   openAuthModal('login');
   showToast('You have been signed out.', 'success');
-};
+}
+window.logout = logout;
 
 window.generateRegistrationOtp = async function() {
   const form = document.querySelector('#registerFormContainer form');
