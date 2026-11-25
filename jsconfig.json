@@ -3,7 +3,8 @@
     "target": "ES2022",
     "module": "None",
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "checkJs": false
+    "checkJs": false,
+    "ignoreDeprecations": "6.0"
   },
   "include": [
     "frontend/**/*.js"
