@@ -53,6 +53,7 @@ const state = {
   ],
 
   // Booking Wizard Step & State
+  addVehicleDraft: { type: '', brand: '', model: '' },
   bookingStep: 1,
   bookingDraft: {
     vehicleType: 'ev_cars',
@@ -97,7 +98,7 @@ const state = {
       role: 'Electrician',
       rating: 4.95,
       phone: '+91 97410 44821',
-      avatar: '⚡👨‍💻',
+      avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=80',
       workshop: 'Vikas Volt EV & Auto Electricals',
       etaMins: 8,
       distanceKm: 2.1
@@ -123,7 +124,7 @@ const state = {
       technician: {
         name: 'Rajesh Sharma',
         role: 'Mechanic',
-        avatar: '👨‍🔧'
+        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80'
       },
       cost: 'Parts and labor quoted separately',
       ratingGiven: 5,
@@ -139,7 +140,7 @@ const state = {
       technician: {
         name: 'Vikas Sundaram',
         role: 'Electrician',
-        avatar: '⚡👨‍💻'
+        avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=80'
       },
       cost: 'Parts and labor quoted separately',
       ratingGiven: 5,
@@ -182,6 +183,7 @@ const state = {
 // INITIALIZATION
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
+  initSpotlightEffects();
   initTheme();
   initNavigation();
   initRoleSegmentSwitcher();
@@ -201,7 +203,76 @@ document.addEventListener('DOMContentLoaded', () => {
   void initializeAuthentication();
 });
 
+function initSpotlightEffects() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const selector = '.cat-card-tile, .vehicle-type-card, .payment-method-card, .tech-type-card, .settings-card, .assigned-tech-card, .status-tracker-card, .nearby-technician-row, .quick-info-card, .offer-card, .review-card';
+  const findSurface = target => target instanceof Element ? target.closest(selector) : null;
+
+  document.addEventListener('pointerover', event => {
+    if (event.pointerType === 'touch') return;
+    const surface = findSurface(event.target);
+    if (!surface || surface.contains(event.relatedTarget)) return;
+
+    surface.classList.add('vme-spotlight-surface');
+    if (surface.matches('.cat-card-tile, .vehicle-type-card')) surface.classList.add('vme-tilt-surface');
+  });
+
+  document.addEventListener('pointermove', event => {
+    if (event.pointerType === 'touch') return;
+    const surface = findSurface(event.target);
+    if (!surface) return;
+
+    const bounds = surface.getBoundingClientRect();
+    const offsetX = event.clientX - bounds.left;
+    const offsetY = event.clientY - bounds.top;
+    surface.style.setProperty('--spotlight-x', `${offsetX}px`);
+    surface.style.setProperty('--spotlight-y', `${offsetY}px`);
+    if (surface.classList.contains('vme-tilt-surface')) {
+      surface.style.setProperty('--tilt-x', `${((offsetX / bounds.width) - 0.5) * 3}deg`);
+      surface.style.setProperty('--tilt-y', `${(0.5 - (offsetY / bounds.height)) * 3}deg`);
+    }
+  });
+
+  document.addEventListener('pointerout', event => {
+    const surface = findSurface(event.target);
+    if (!surface || surface.contains(event.relatedTarget)) return;
+    surface.style.removeProperty('--tilt-x');
+    surface.style.removeProperty('--tilt-y');
+  });
+}
+
 // Toast System
+const VME_ICON_NAMES = new Set([
+  'banknote', 'battery-charging', 'bike', 'car', 'car-front', 'check',
+  'clipboard', 'credit-card', 'eye', 'eye-off', 'fuel', 'globe', 'headphones', 'landmark',
+  'link', 'lock-keyhole', 'map-pin', 'message-circle', 'mic', 'navigation', 'package', 'phone',
+  'phone-off', 'send', 'settings-2', 'shield', 'siren', 'smartphone', 'snowflake', 'sparkles',
+  'plus', 'star', 'tag', 'trash-2', 'triangle-alert', 'truck', 'user-round', 'wallet-cards', 'volume-2', 'wrench', 'zap'
+]);
+
+const VME_PORTRAIT_IMAGES = [
+  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80',
+  'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=80',
+  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=160&q=80',
+  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=160&q=80'
+];
+
+function renderIconImage(name, className = '') {
+  const iconName = VME_ICON_NAMES.has(name) ? name : 'wrench';
+  return `<img class="vme-icon-image ${escapeHTML(className)}" src="https://cdn.jsdelivr.net/npm/lucide-static@0.468.0/icons/${iconName}.svg" alt="" aria-hidden="true" loading="lazy">`;
+}
+
+function renderPortraitImage(source, className = '') {
+  const portraitUrl = VME_PORTRAIT_IMAGES.includes(source) ? source : VME_PORTRAIT_IMAGES[0];
+  return `<img class="vme-person-image ${escapeHTML(className)}" src="${portraitUrl}" alt="" aria-hidden="true" loading="lazy">`;
+}
+
+function getProfilePortrait(avatar) {
+  const portraitIndex = ['👨‍💼', '👩‍💼', '👨‍🔧', '⚡👩‍🔧'].indexOf(avatar);
+  return VME_PORTRAIT_IMAGES[portraitIndex] || VME_PORTRAIT_IMAGES[0];
+}
+
 function showToast(message, type = 'info') {
   const container = document.getElementById('toastContainer');
   if (!container) return;
@@ -209,15 +280,12 @@ function showToast(message, type = 'info') {
   const toast = document.createElement('div');
   toast.className = 'toast-message';
   
-  let icon = '🔔';
-  if (type === 'success') icon = '✅';
-  if (type === 'error') icon = '⚠️';
-  if (type === 'call') icon = '📞';
-  const iconElement = document.createElement('span');
-  iconElement.textContent = icon;
+  const iconNames = { success: 'check', error: 'triangle-alert', call: 'phone', info: 'sparkles' };
+  const iconContainer = document.createElement('span');
+  iconContainer.innerHTML = renderIconImage(iconNames[type] || iconNames.info, 'toast-icon');
   const messageElement = document.createElement('span');
   messageElement.textContent = message;
-  toast.append(iconElement, messageElement);
+  toast.append(iconContainer, messageElement);
   container.appendChild(toast);
 
   setTimeout(() => {
@@ -487,13 +555,13 @@ function renderActiveOrderBanner() {
         </div>
         <div style="display: flex; gap: 8px;">
           <button class="btn-primary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="openInAppCall('${state.activeOrder.technician.name}', '${state.activeOrder.technician.role}')">
-            📞 Direct Call
+            ${renderIconImage('phone')} Direct Call
           </button>
           <button class="btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="openInAppChat()">
-            💬 Live Chat
+            ${renderIconImage('message-circle')} Live Chat
           </button>
           <button class="btn-secondary" style="padding: 8px 16px; font-size: 0.85rem;" onclick="navigateTo('orders')">
-            📍 Track Live
+            ${renderIconImage('map-pin')} Track Live
           </button>
         </div>
       </div>
@@ -622,7 +690,7 @@ function updateWizardFooter() {
   if (prevBtn) prevBtn.style.display = state.bookingStep === 1 ? 'none' : 'inline-flex';
   if (nextBtn) {
     nextBtn.innerHTML = state.bookingStep === 6
-      ? '<span>Confirm & Submit Request</span> <span>✨</span>'
+      ? `<span>Confirm & Submit Request</span> ${renderIconImage('sparkles')}`
       : '<span>Next Step</span> <span>→</span>';
   }
 }
@@ -649,7 +717,7 @@ function renderStep1VehicleTypes() {
     const isSelected = state.bookingDraft.vehicleType === vt.id;
     return `
       <div class="vehicle-type-card ${isSelected ? 'selected' : ''}" onclick="selectVehicleType('${vt.id}')">
-        <div class="vt-icon">${vt.icon}</div>
+        <div class="vt-icon">${renderIconImage(vt.icon, 'vehicle-type-icon')}</div>
         <div class="vt-title">${vt.name}</div>
         <div class="vt-desc">${vt.desc}</div>
       </div>
@@ -657,12 +725,20 @@ function renderStep1VehicleTypes() {
   }).join('');
 }
 
+function getVehicleCatalog(typeId) {
+  const catalogType = ['petrol_hatchback', 'diesel_hatchback', 'petrol_sedan', 'diesel_sedan'].includes(typeId)
+    ? 'cars'
+    : typeId;
+  return VME_DATA.catalog[catalogType] || {};
+}
+
 window.selectVehicleType = function(typeId) {
   state.bookingDraft.vehicleType = typeId;
   // Reset brand & model when type changes
-  const availableBrands = Object.keys(VME_DATA.catalog[typeId] || {});
+  const catalog = getVehicleCatalog(typeId);
+  const availableBrands = Object.keys(catalog);
   state.bookingDraft.brand = availableBrands[0] || '';
-  const models = VME_DATA.catalog[typeId]?.[state.bookingDraft.brand] || [];
+  const models = catalog[state.bookingDraft.brand] || [];
   state.bookingDraft.model = models[0] || '';
 
   // Auto assign technician preference based on vehicle type
@@ -688,10 +764,10 @@ function renderStep2BrandsAndModels() {
 
   const selectedTypeObj = VME_DATA.vehicleTypes.find(v => v.id === state.bookingDraft.vehicleType);
   if (currentVehicleTypeBadge && selectedTypeObj) {
-    currentVehicleTypeBadge.textContent = `${selectedTypeObj.icon} ${selectedTypeObj.name}`;
+    currentVehicleTypeBadge.innerHTML = `${renderIconImage(selectedTypeObj.icon, 'inline-type-icon')} ${escapeHTML(selectedTypeObj.name)}`;
   }
 
-  const catalogForType = VME_DATA.catalog[state.bookingDraft.vehicleType] || {};
+  const catalogForType = getVehicleCatalog(state.bookingDraft.vehicleType);
   const brands = Object.keys(catalogForType);
   const selectedBrandModels = catalogForType[state.bookingDraft.brand] || [];
   if (!selectedBrandModels.includes(state.bookingDraft.model)) {
@@ -710,7 +786,7 @@ function renderStep2BrandsAndModels() {
             return `
               <button class="model-card-btn ${isSelected ? 'selected' : ''}" onclick="selectModel('${model}', '${brand}')">
                 <span>${model}</span>
-                <span>${isSelected ? '✓' : ''}</span>
+                <span>${isSelected ? renderIconImage('check') : ''}</span>
               </button>
             `;
           }).join('')}
@@ -736,7 +812,7 @@ function renderStep3Categories() {
     return `
       <div class="category-select-card ${isSelected ? 'selected' : ''}" onclick="selectCategory('${cat.id}')">
         <div style="display: flex; align-items: center; justify-content: space-between;">
-          <span style="font-size: 2rem;">${cat.icon}</span>
+          <span class="category-select-icon">${renderIconImage(cat.icon)}</span>
           <span class="cat-badge-pill">${cat.badge}</span>
         </div>
         <div style="font-family: var(--font-heading); font-size: 1.15rem; font-weight: 700;">
@@ -781,15 +857,19 @@ window.selectCategory = function(catId) {
 };
 
 window.startBookingWithCategory = function(catId) {
-  state.bookingStep = 3;
+  state.bookingStep = 1;
   window.selectCategory(catId);
   navigateTo('service');
 };
 
 function getApplicableServiceTasks(categoryId) {
   const vehicleType = state.bookingDraft.vehicleType;
+  const taskVehicleTypes = new Set([vehicleType]);
+  if (['petrol_hatchback', 'diesel_hatchback', 'petrol_sedan', 'diesel_sedan'].includes(vehicleType)) {
+    taskVehicleTypes.add('cars');
+  }
   return (VME_DATA.serviceTasks[categoryId] || []).filter(task =>
-    task.types.includes('all') || task.types.includes(vehicleType)
+    task.types.includes('all') || task.types.some(type => taskVehicleTypes.has(type))
   );
 }
 
@@ -926,7 +1006,7 @@ function renderEVProblemCards(container, problems) {
           </div>
         </div>
         <div style="text-align: right; font-size: 0.75rem; color: var(--text-muted);">
-          ${isSelected ? 'Selected ✓' : 'Tap to select'}
+          ${isSelected ? `${renderIconImage('check')} Selected` : 'Tap to select'}
         </div>
       </div>
     `;
@@ -963,7 +1043,7 @@ function renderStandardProblems(container) {
           </div>
         </div>
         <div style="text-align: right;">
-          <div style="font-size: 0.75rem; color: var(--text-muted);">${isSelected ? 'Selected ✓' : 'Tap to select'}</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);">${isSelected ? `${renderIconImage('check')} Selected` : 'Tap to select'}</div>
         </div>
       </div>
     `;
@@ -1185,14 +1265,14 @@ window.detectCurrentGPS = function() {
 // Step 6: Payment Methods
 function renderStep6PaymentMethods() {
   const methods = [
-    { id: 'upi_gpay', icon: '📱', title: 'Google Pay (UPI)', desc: 'Instant 1-click UPI authorization' },
-    { id: 'upi_phonepe', icon: '🟣', title: 'PhonePe (UPI)', desc: 'Scan QR or enter UPI ID' },
-    { id: 'upi_paytm', icon: '🪙', title: 'Paytm UPI / Wallet', desc: 'Paytm balance, UPI & Postpaid' },
-    { id: 'upi_bhim', icon: '🇮🇳', title: 'BHIM UPI', desc: 'Direct bank authorization via NPCI' },
-    { id: 'card_debit', icon: '💳', title: 'Debit Card', desc: 'Visa, Mastercard, RuPay with OTP' },
-    { id: 'card_credit', icon: '💳', title: 'Credit Card', desc: 'No cost EMI & reward points eligible' },
-    { id: 'netbanking', icon: '🏦', title: 'Net Banking', desc: 'HDFC, ICICI, SBI, Axis & all 50+ banks' },
-    { id: 'cash_on_request', icon: '💵', title: 'Cash on Request (Pay After)', desc: 'Pay cash or UPI directly after service completion' }
+    { id: 'upi_gpay', icon: 'smartphone', title: 'Google Pay (UPI)', desc: 'Instant 1-click UPI authorization' },
+    { id: 'upi_phonepe', icon: 'wallet-cards', title: 'PhonePe (UPI)', desc: 'Scan QR or enter UPI ID' },
+    { id: 'upi_paytm', icon: 'wallet-cards', title: 'Paytm UPI / Wallet', desc: 'Paytm balance, UPI & Postpaid' },
+    { id: 'upi_bhim', icon: 'landmark', title: 'BHIM UPI', desc: 'Direct bank authorization via NPCI' },
+    { id: 'card_debit', icon: 'credit-card', title: 'Debit Card', desc: 'Visa, Mastercard, RuPay with OTP' },
+    { id: 'card_credit', icon: 'credit-card', title: 'Credit Card', desc: 'No cost EMI & reward points eligible' },
+    { id: 'netbanking', icon: 'landmark', title: 'Net Banking', desc: 'HDFC, ICICI, SBI, Axis & all 50+ banks' },
+    { id: 'cash_on_request', icon: 'banknote', title: 'Cash on Request (Pay After)', desc: 'Pay cash or UPI directly after service completion' }
   ];
 
   const grid = document.getElementById('paymentMethodsGrid');
@@ -1208,7 +1288,7 @@ function renderStep6PaymentMethods() {
     const isSelected = state.bookingDraft.paymentMethod === m.id;
     return `
       <div class="payment-method-card ${isSelected ? 'selected' : ''}" onclick="selectPaymentMethod('${m.id}')">
-        <div class="pay-icon">${m.icon}</div>
+        <div class="pay-icon">${renderIconImage(m.icon)}</div>
         <div class="pay-info">
           <div class="pay-title">${m.title}</div>
           <div class="pay-desc">${m.desc}</div>
@@ -1294,7 +1374,7 @@ function renderStep7Congratulations() {
 
   container.innerHTML = `
     <div class="congrats-card">
-      <div class="congrats-icon-ring">🎉</div>
+      <div class="congrats-icon-ring">${renderIconImage('sparkles')}</div>
       <h2 class="congrats-title">Congratulations & Thank You!</h2>
       <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto 1.5rem auto;">
         Your service request has been confirmed and priority dispatched. A certified specialist is already assigned and heading to your location.
@@ -1314,12 +1394,12 @@ function renderStep7Congratulations() {
           Assigned Specialist Nearby
         </div>
         <div class="tech-info-row">
-          <div class="tech-avatar-circle">${tech.avatar}</div>
+          <div class="tech-avatar-circle">${renderPortraitImage(tech.avatar)}</div>
           <div style="flex: 1;">
             <div style="font-weight: 700; font-size: 1.15rem; color: var(--text-main);">${tech.name}</div>
             <div style="font-size: 0.82rem; color: var(--text-secondary);">${tech.workshop} • <strong>${tech.experience} Exp</strong></div>
             <div style="font-size: 0.8rem; color: var(--amber); margin-top: 2px;">
-              ★ ${tech.rating} (${tech.reviewsCount} verified jobs)
+              ${renderIconImage('star', 'rating-star')} ${tech.rating} (${tech.reviewsCount} verified jobs)
             </div>
           </div>
           <div style="text-align: right;">
@@ -1331,10 +1411,10 @@ function renderStep7Congratulations() {
         <!-- Direct In-App Contact Buttons -->
         <div class="tech-action-buttons">
           <button class="btn-call-direct" onclick="openInAppCall('${tech.name}', '${tech.role}')">
-            📞 Direct In-App Call
+            ${renderIconImage('phone')} Direct In-App Call
           </button>
           <button class="btn-chat-direct" onclick="openInAppChat()">
-            💬 Direct In-App Chat
+            ${renderIconImage('message-circle')} Direct In-App Chat
           </button>
         </div>
       </div>
@@ -1371,10 +1451,10 @@ function renderStep7Congratulations() {
 
       <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem;">
         <button class="btn-primary" onclick="navigateTo('orders')">
-          📍 View Live Radar Map & Details
+          ${renderIconImage('map-pin')} View Live Radar Map & Details
         </button>
         <button class="btn-secondary" onclick="startNewBooking()">
-          ➕ Book Another Service
+          ${renderIconImage('plus')} Book Another Service
         </button>
       </div>
     </div>
@@ -1514,6 +1594,8 @@ function renderChatMessages() {
   const tech = state.activeOrder?.technician || VME_DATA.technicians[0];
   if (chatHeaderName) chatHeaderName.textContent = tech.name;
   if (chatHeaderRole) chatHeaderRole.textContent = `${tech.role} • Active Now`;
+  const chatAvatar = document.querySelector('.chat-user-avatar');
+  if (chatAvatar) chatAvatar.innerHTML = renderPortraitImage(tech.avatar);
 
   const messages = state.activeOrder?.messages || [
     { sender: 'tech', text: 'Hello! I am your assigned technician. How can I assist you?', time: 'Just now' }
@@ -1579,7 +1661,7 @@ window.sendQuickChat = function(text) {
 };
 
 function shareChatLocation() {
-  const locationMsg = `📍 Shared Live Breakdown Coordinates: Lat 12.9260, Lng 77.6762 (${state.activeOrder?.location || 'Bengaluru'})`;
+  const locationMsg = `Shared Live Breakdown Coordinates: Lat 12.9260, Lng 77.6762 (${state.activeOrder?.location || 'Bengaluru'})`;
   if (state.activeOrder) {
     state.activeOrder.messages.push({
       sender: 'user',
@@ -1717,7 +1799,7 @@ function renderOrdersList(filter = 'active') {
     if (!state.activeOrder || state.activeOrder.status === 'completed') {
       container.innerHTML = `
         <div style="text-align: center; padding: 3rem 1rem; color: var(--text-secondary);">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">🏁</div>
+          <div class="empty-orders-icon">${renderIconImage('check')}</div>
           <h3>No Active Bookings Right Now</h3>
           <p style="margin-top: 6px;">Need emergency breakdown assistance or general servicing?</p>
           <button class="btn-primary" style="margin-top: 1.5rem;" onclick="navigateTo('service')">
@@ -1764,18 +1846,18 @@ function renderOrdersList(filter = 'active') {
         <!-- Assigned Technician Quick Bar with Direct Calling & Chat -->
         <div class="assigned-tech-card" style="margin-top: 1.5rem; max-width: 100%;">
           <div class="tech-info-row">
-            <div class="tech-avatar-circle">${tech.avatar}</div>
+            <div class="tech-avatar-circle">${renderPortraitImage(tech.avatar)}</div>
             <div style="flex: 1;">
               <div style="font-size: 1.1rem; font-weight: 700;">${tech.name} (${tech.role})</div>
               <div style="font-size: 0.82rem; color: var(--text-secondary);">${tech.workshop}</div>
-              <div style="font-size: 0.8rem; color: var(--amber);">★ ${tech.rating} Verified Specialist</div>
+              <div style="font-size: 0.8rem; color: var(--amber);">${renderIconImage('star', 'rating-star')} ${tech.rating} Verified Specialist</div>
             </div>
             <div style="display: flex; gap: 8px;">
               <button class="btn-primary" style="padding: 10px 16px;" onclick="openInAppCall('${tech.name}', '${tech.role}')">
-                📞 Direct Call
+                ${renderIconImage('phone')} Direct Call
               </button>
               <button class="btn-secondary" style="padding: 10px 16px;" onclick="openInAppChat()">
-                💬 Live Chat
+                ${renderIconImage('message-circle')} Live Chat
               </button>
             </div>
           </div>
@@ -1798,7 +1880,7 @@ function renderOrdersList(filter = 'active') {
     container.innerHTML = state.pastOrders.map(po => `
       <div class="problem-card-item" style="margin-bottom: 1rem; cursor: default;">
         <div style="display: flex; gap: 14px; align-items: center;">
-          <div style="font-size: 2.2rem;">${po.technician.avatar}</div>
+          <div class="tech-avatar-circle">${renderPortraitImage(po.technician.avatar)}</div>
           <div>
             <div style="font-weight: 700; font-size: 1rem; color: var(--text-main);">${po.problem}</div>
             <div style="font-size: 0.82rem; color: var(--text-secondary);">${po.vehicle} • ${po.date}</div>
@@ -1807,9 +1889,9 @@ function renderOrdersList(filter = 'active') {
         </div>
         <div style="text-align: right;">
           <div style="font-weight: 800; color: var(--text-main); font-size: 1.1rem;">${po.cost}</div>
-          <div style="font-size: 0.75rem; color: var(--amber);">★ ${po.ratingGiven}.0 Rated</div>
+          <div style="font-size: 0.75rem; color: var(--amber);">${renderIconImage('star', 'rating-star')} ${po.ratingGiven}.0 Rated</div>
           <button class="btn-secondary" style="padding: 4px 10px; font-size: 0.75rem; margin-top: 6px;" onclick="downloadInvoice('${po.invoiceId}')">
-            📄 Invoice
+            ${renderIconImage('clipboard')} Invoice
           </button>
         </div>
       </div>
@@ -1919,14 +2001,14 @@ function renderReviewsList() {
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
         <div>
           <div style="font-weight: 700; font-size: 1rem; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
-            ${rev.author} <span style="font-size: 0.72rem; color: var(--emerald); background: rgba(16, 185, 129, 0.15); padding: 2px 6px; border-radius: 4px;">✓ Verified Customer</span>
+            ${rev.author} <span style="font-size: 0.72rem; color: var(--emerald); background: rgba(16, 185, 129, 0.15); padding: 2px 6px; border-radius: 4px;">${renderIconImage('check')} Verified Customer</span>
           </div>
           <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">
             ${rev.vehicle} • Serviced by <strong>${rev.techName}</strong>
           </div>
         </div>
         <div style="color: var(--amber); font-size: 0.95rem; font-weight: 700;">
-          ${'★'.repeat(rev.rating)}
+          ${Array.from({ length: rev.rating }, () => renderIconImage('star', 'rating-star')).join('')}
         </div>
       </div>
       <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
@@ -1971,36 +2053,153 @@ window.submitNewReview = function() {
 // ==========================================================================
 function initVehicleGarage() {
   renderVehicleGarage();
+  const typeGrid = document.getElementById('addVehicleTypesGrid');
+  const brandModelGrid = document.getElementById('addVehicleBrandModelGrid');
+  const addVehicleForm = document.getElementById('addVehicleForm');
+  const addVehicleDialog = document.getElementById('addVehicleModal');
+  if (!typeGrid || !brandModelGrid || !addVehicleForm || !addVehicleDialog) return;
+
+  renderAddVehicleTypeOptions();
+  typeGrid.addEventListener('click', event => {
+    const typeButton = event.target.closest('[data-add-vehicle-type]');
+    if (typeButton) selectAddVehicleType(typeButton.dataset.addVehicleType);
+  });
+  brandModelGrid.addEventListener('click', event => {
+    const modelButton = event.target.closest('[data-add-vehicle-model]');
+    if (modelButton) selectAddVehicleModel(modelButton.dataset.addVehicleBrand, modelButton.dataset.addVehicleModel);
+  });
+  addVehicleForm.addEventListener('submit', handleAddVehicleSubmit);
+  addVehicleDialog.addEventListener('close', () => addVehicleDialog.classList.remove('active'));
+  addVehicleDialog.addEventListener('click', event => {
+    if (event.target === addVehicleDialog) addVehicleDialog.close();
+  });
+}
+
+function renderAddVehicleTypeOptions() {
+  const grid = document.getElementById('addVehicleTypesGrid');
+  if (!grid) return;
+
+  grid.innerHTML = VME_DATA.vehicleTypes.map(type => `
+    <button class="vehicle-type-card ${state.addVehicleDraft.type === type.id ? 'selected' : ''}" type="button"
+      data-add-vehicle-type="${escapeHTML(type.id)}" aria-pressed="${state.addVehicleDraft.type === type.id}">
+      <span class="vt-icon">${renderIconImage(type.icon, 'vehicle-type-icon')}</span>
+      <span class="vt-title">${escapeHTML(type.name)}</span>
+      <span class="vt-desc">${escapeHTML(type.desc)}</span>
+    </button>
+  `).join('');
+}
+
+function selectAddVehicleType(typeId) {
+  state.addVehicleDraft = { type: typeId, brand: '', model: '' };
+  renderAddVehicleTypeOptions();
+  renderAddVehicleBrandModels();
+}
+
+function renderAddVehicleBrandModels() {
+  const group = document.getElementById('addVehicleBrandModelGroup');
+  const grid = document.getElementById('addVehicleBrandModelGrid');
+  if (!group || !grid) return;
+
+  const catalog = getVehicleCatalog(state.addVehicleDraft.type);
+  const brands = Object.keys(catalog);
+  group.hidden = brands.length === 0;
+  grid.innerHTML = brands.map(brand => `
+    <section class="brand-model-group">
+      <h4 class="brand-model-heading">${escapeHTML(brand)}</h4>
+      <div class="brand-model-options">
+        ${catalog[brand].map(model => {
+          const selected = state.addVehicleDraft.brand === brand && state.addVehicleDraft.model === model;
+          return `
+            <button class="model-card-btn ${selected ? 'selected' : ''}" type="button"
+              data-add-vehicle-brand="${escapeHTML(brand)}" data-add-vehicle-model="${escapeHTML(model)}"
+              aria-pressed="${selected}">
+              <span>${escapeHTML(model)}</span>
+              ${selected ? renderIconImage('check') : ''}
+            </button>
+          `;
+        }).join('')}
+      </div>
+    </section>
+  `).join('');
+  updateAddVehicleSubmitButton();
+}
+
+function selectAddVehicleModel(brand, model) {
+  state.addVehicleDraft.brand = brand;
+  state.addVehicleDraft.model = model;
+  renderAddVehicleBrandModels();
+}
+
+function updateAddVehicleSubmitButton() {
+  const submitButton = document.getElementById('addVehicleSubmitButton');
+  if (submitButton) {
+    submitButton.disabled = !state.addVehicleDraft.type || !state.addVehicleDraft.brand || !state.addVehicleDraft.model;
+  }
+}
+
+function handleAddVehicleSubmit(event) {
+  event.preventDefault();
+  const { type, brand, model } = state.addVehicleDraft;
+  const models = getVehicleCatalog(type)[brand] || [];
+
+  if (!models.includes(model)) {
+    showToast('Choose a model from the selected vehicle brand.', 'error');
+    return;
+  }
+
+  const vehicleType = VME_DATA.vehicleTypes.find(item => item.id === type);
+  state.vehicles.push({
+    id: `v_${Date.now()}`,
+    type,
+    typeName: vehicleType.name,
+    brand,
+    model,
+    regNumber: '',
+    year: '',
+    batteryHealth: 'Not recorded',
+    lastService: 'Not recorded'
+  });
+
+  renderVehicleGarage();
+  closeAddVehicleModal();
+  showToast('Vehicle added to your VME Garage.', 'success');
 }
 
 function renderVehicleGarage() {
   const container = document.getElementById('garageVehiclesList');
   if (!container) return;
 
-  container.innerHTML = state.vehicles.map(v => `
-    <div class="settings-card" style="margin-bottom: 1.25rem;">
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <div style="font-size: 2.2rem;">
-            ${v.type.startsWith('ev_') ? '⚡' : '🚘'}
+  container.innerHTML = state.vehicles.map(v => {
+    const savedDetails = [
+      v.regNumber ? `Reg: <strong>${escapeHTML(v.regNumber)}</strong>` : '',
+      v.year ? `Year: ${escapeHTML(v.year)}` : ''
+    ].filter(Boolean).join(' • ') || escapeHTML(v.typeName || 'Vehicle');
+
+    return `
+      <div class="settings-card" style="margin-bottom: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <div style="font-size: 2.2rem;">
+              ${renderIconImage(v.type.startsWith('ev_') ? 'battery-charging' : 'car-front')}
+            </div>
+            <div>
+              <div style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);">${escapeHTML(v.brand)} ${escapeHTML(v.model)}</div>
+              <div style="font-size: 0.82rem; color: var(--text-secondary);">${savedDetails}</div>
+              <div style="font-size: 0.78rem; color: var(--primary-light); margin-top: 4px;">Diagnostics: ${escapeHTML(v.batteryHealth)} • Last Serviced: ${escapeHTML(v.lastService)}</div>
+            </div>
           </div>
-          <div>
-            <div style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);">${v.brand} ${v.model}</div>
-            <div style="font-size: 0.82rem; color: var(--text-secondary);">Reg: <strong>${v.regNumber}</strong> • Year: ${v.year}</div>
-            <div style="font-size: 0.78rem; color: var(--primary-light); margin-top: 4px;">Diagnostics: ${v.batteryHealth} • Last Serviced: ${v.lastService}</div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-primary" style="padding: 8px 14px; font-size: 0.82rem;" onclick="bookForVehicle('${escapeHTML(v.id)}')">
+              Book Service
+            </button>
+            <button class="btn-secondary" style="padding: 8px 12px; font-size: 0.82rem;" onclick="removeVehicle('${escapeHTML(v.id)}')">
+              Remove
+            </button>
           </div>
-        </div>
-        <div style="display: flex; gap: 8px;">
-          <button class="btn-primary" style="padding: 8px 14px; font-size: 0.82rem;" onclick="bookForVehicle('${v.id}')">
-            Book Service
-          </button>
-          <button class="btn-secondary" style="padding: 8px 12px; font-size: 0.82rem;" onclick="removeVehicle('${v.id}')">
-            Remove
-          </button>
         </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 window.bookForVehicle = function(vehicleId) {
@@ -2019,26 +2218,23 @@ window.bookForVehicle = function(vehicleId) {
 };
 
 window.addNewVehicleModal = function() {
-  const type = prompt('Enter Vehicle Type (bikes, scooters, cars, ev_bikes, ev_scooters, ev_cars, commercial):', 'cars');
-  const brand = prompt('Enter Vehicle Brand (e.g. Hyundai, Tata, Royal Enfield):', 'Tata');
-  const model = prompt('Enter Vehicle Model (e.g. Creta, Nexon EV, Classic 350):', 'Harrier');
-  const regNumber = prompt('Enter Registration Plate Number:', 'KA 05 AB 1234');
+  const dialog = document.getElementById('addVehicleModal');
+  const form = document.getElementById('addVehicleForm');
+  if (!dialog || !form) return;
 
-  if (type && brand && model && regNumber) {
-    state.vehicles.push({
-      id: `v_${Date.now()}`,
-      type: type.toLowerCase(),
-      typeName: type,
-      brand: brand,
-      model: model,
-      regNumber: regNumber,
-      year: '2024',
-      batteryHealth: '100% Good',
-      lastService: 'Never'
-    });
-    renderVehicleGarage();
-    showToast('New vehicle added to your VME Garage!', 'success');
-  }
+  form.reset();
+  state.addVehicleDraft = { type: '', brand: '', model: '' };
+  renderAddVehicleTypeOptions();
+  renderAddVehicleBrandModels();
+  updateAddVehicleSubmitButton();
+  dialog.showModal();
+  dialog.classList.add('active');
+};
+
+window.closeAddVehicleModal = function() {
+  const dialog = document.getElementById('addVehicleModal');
+  if (dialog?.open) dialog.close();
+  dialog?.classList.remove('active');
 };
 
 window.removeVehicle = function(vehicleId) {
@@ -2074,7 +2270,7 @@ function renderProfileView() {
 
   if (nameEl) nameEl.textContent = u.name;
   if (userTagEl) userTagEl.textContent = `@${u.username} • ${u.userType.toUpperCase()}`;
-  if (avatarEl) avatarEl.textContent = u.avatar;
+  if (avatarEl) avatarEl.innerHTML = renderPortraitImage(getProfilePortrait(u.avatar));
   if (idEl) idEl.textContent = u.registrationId || u.id;
   if (drawerName) drawerName.textContent = u.name;
   if (drawerAvatar) drawerAvatar.textContent = u.avatar;
@@ -2124,7 +2320,7 @@ function renderProfileView() {
     paymentsList.innerHTML = u.paymentMethods.map(pm => `
       <div class="problem-card-item" style="padding: 10px 14px; margin-bottom: 8px;">
         <div style="display: flex; align-items: center; gap: 10px;">
-          <span>${pm.type === 'UPI' ? '📱' : '💳'}</span>
+          ${renderIconImage(pm.type === 'UPI' ? 'smartphone' : 'credit-card')}
           <div>
             <div style="font-weight: 700; font-size: 0.9rem;">${escapeHTML(pm.label)}</div>
             <div style="font-size: 0.78rem; color: var(--text-secondary);">${escapeHTML(pm.detail)}</div>
@@ -2347,7 +2543,7 @@ function renderMechanicDashboard() {
   container.innerHTML = `
     <div class="hero-banner" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(2, 132, 199, 0.15) 100%); border-color: var(--amber);">
       <div class="hero-tag" style="background: rgba(245, 158, 11, 0.2); border-color: var(--amber); color: var(--amber);">
-        👨‍🔧 MECHANIC CONSOLE
+        ${renderIconImage('wrench')} MECHANIC CONSOLE
       </div>
       <h2 class="hero-title" style="font-size: 1.8rem;">Mechanic On-Demand Job Radar</h2>
       <p class="hero-desc">
@@ -2358,7 +2554,7 @@ function renderMechanicDashboard() {
     <!-- Incoming Job Card -->
     <div class="booking-wizard-card" style="margin-bottom: 2rem;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <span class="cat-badge-pill" style="background: rgba(239, 68, 68, 0.2); color: var(--danger);">🚨 LIVE EMERGENCY BREAKDOWN</span>
+        <span class="cat-badge-pill" style="background: rgba(239, 68, 68, 0.2); color: var(--danger);">${renderIconImage('siren')} LIVE EMERGENCY BREAKDOWN</span>
         <span style="font-size: 0.8rem; color: var(--text-secondary);">Received 2 mins ago</span>
       </div>
 
@@ -2369,7 +2565,7 @@ function renderMechanicDashboard() {
         Vehicle: <strong>Royal Enfield Classic 350 (KA 01 EK 4482)</strong> • Customer: <strong>Madhu MK</strong>
       </div>
       <div style="font-size: 0.88rem; color: var(--primary-light); margin-top: 6px;">
-        📍 Customer Location: <strong>Outer Ring Road near Ecospace Flyover, Bellandur (1.8 km away)</strong>
+        ${renderIconImage('map-pin')} Customer Location: <strong>Outer Ring Road near Ecospace Flyover, Bellandur (1.8 km away)</strong>
       </div>
 
       <!-- In-App Direct Radar View -->
@@ -2379,13 +2575,13 @@ function renderMechanicDashboard() {
 
       <div style="display: flex; gap: 10px; margin-top: 1.5rem; flex-wrap: wrap;">
         <button class="btn-primary" style="flex: 1;" onclick="mechanicAcceptJob()">
-          ✓ Accept Job & Navigate In-App
+          ${renderIconImage('check')} Accept Job & Navigate In-App
         </button>
         <button class="btn-secondary" onclick="openInAppCall('Madhu MK', 'Customer')">
-          📞 Call Customer Directly
+          ${renderIconImage('phone')} Call Customer Directly
         </button>
         <button class="btn-secondary" onclick="openInAppChat()">
-          💬 Chat with Customer
+          ${renderIconImage('message-circle')} Chat with Customer
         </button>
       </div>
     </div>
@@ -2399,13 +2595,13 @@ function renderMechanicDashboard() {
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#38bdf8';
       ctx.font = 'bold 14px Inter';
-      ctx.fillText('📡 Live Mechanic Radar: Customer Location Pinpointed at Lat 12.9260, Lng 77.6762', 20, 40);
+      ctx.fillText('Live Mechanic Radar: Customer Location Pinpointed at Lat 12.9260, Lng 77.6762', 20, 40);
       ctx.strokeStyle = '#f59e0b';
       ctx.beginPath();
       ctx.arc(200, 130, 30, 0, Math.PI * 2);
       ctx.stroke();
       ctx.fillStyle = '#ef4444';
-      ctx.fillText('📍 Breakdown Spot (1.8 km)', 240, 135);
+      ctx.fillText('Breakdown Spot (1.8 km)', 240, 135);
     }
   }, 50);
 }
@@ -2421,7 +2617,7 @@ function renderElectricianDashboard() {
   container.innerHTML = `
     <div class="hero-banner" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(2, 132, 199, 0.15) 100%); border-color: var(--electric);">
       <div class="hero-tag" style="background: rgba(6, 182, 212, 0.2); border-color: var(--electric); color: var(--electric);">
-        ⚡ ELECTRICIAN CONSOLE
+        ${renderIconImage('zap')} ELECTRICIAN CONSOLE
       </div>
       <h2 class="hero-title" style="font-size: 1.8rem;">High-Voltage & Auto Electrical Radar</h2>
       <p class="hero-desc">
@@ -2432,7 +2628,7 @@ function renderElectricianDashboard() {
     <!-- Active EV Job Card -->
     <div class="booking-wizard-card">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <span class="cat-badge-pill" style="background: rgba(6, 182, 212, 0.2); color: var(--electric);">⚡ EV SYSTEM DIAGNOSTICS</span>
+        <span class="cat-badge-pill" style="background: rgba(6, 182, 212, 0.2); color: var(--electric);">${renderIconImage('battery-charging')} EV SYSTEM DIAGNOSTICS</span>
         <span style="font-size: 0.8rem; color: var(--text-secondary);">Direct Request</span>
       </div>
 
@@ -2443,18 +2639,18 @@ function renderElectricianDashboard() {
         Vehicle: <strong>Tata Motors Nexon EV (KA 03 MK 7721)</strong> • Customer: <strong>Madhu MK</strong>
       </div>
       <div style="font-size: 0.88rem; color: var(--emerald); margin-top: 6px;">
-        📍 Exact Coordinates: <strong>Lat 12.9260, Lng 77.6762 (Ecospace Shoulder)</strong>
+        ${renderIconImage('map-pin')} Exact Coordinates: <strong>Lat 12.9260, Lng 77.6762 (Ecospace Shoulder)</strong>
       </div>
 
       <div style="display: flex; gap: 10px; margin-top: 1.5rem; flex-wrap: wrap;">
         <button class="btn-primary" style="flex: 1;" onclick="electricianRunDiagnostics()">
-          ⚡ Run Remote CAN-Bus Diagnostic
+          ${renderIconImage('zap')} Run Remote CAN-Bus Diagnostic
         </button>
         <button class="btn-secondary" onclick="openInAppCall('Madhu MK', 'Customer')">
-          📞 Direct In-App VoIP Call
+          ${renderIconImage('phone')} Direct In-App VoIP Call
         </button>
         <button class="btn-secondary" onclick="openInAppChat()">
-          💬 Chat with Customer
+          ${renderIconImage('message-circle')} Chat with Customer
         </button>
       </div>
     </div>
@@ -2487,10 +2683,10 @@ function initAuthModals() {
       if (targetInput) {
         if (targetInput.type === 'password') {
           targetInput.type = 'text';
-          btn.textContent = '👁️';
+          btn.innerHTML = renderIconImage('eye');
         } else {
           targetInput.type = 'password';
-          btn.textContent = '🙈';
+          btn.innerHTML = renderIconImage('eye-off');
         }
       }
     });

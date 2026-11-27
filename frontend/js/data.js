@@ -6,14 +6,17 @@
 const VME_DATA = {
   // Vehicle Types
   vehicleTypes: [
-    { id: 'bikes', name: 'Bikes (ICE — Petrol/Diesel)', icon: '🏍️', desc: 'Petrol and diesel motorcycles' },
-    { id: 'scooters', name: 'Scooters (ICE — Petrol)', icon: '🛵', desc: 'Petrol scooters' },
-    { id: 'cars', name: 'Cars (Hatchback/Sedan)', icon: '🚗', desc: 'Hatchbacks and sedans' },
-    { id: 'suvs_mpvs', name: 'SUVs & MPVs', icon: '🚙', desc: 'SUVs and MPVs' },
-    { id: 'ev_bikes', name: 'EV Bikes (Electric)', icon: '⚡🏍️', desc: 'Electric motorcycles' },
-    { id: 'ev_scooters', name: 'EV Scooters (Electric)', icon: '⚡🛵', desc: 'Electric scooters' },
-    { id: 'ev_cars', name: 'EV Cars (Electric)', icon: '⚡🚙', desc: 'Electric cars and SUVs' },
-    { id: 'commercial', name: 'Commercial Vehicles (LCV/HCV/Multi-Utility)', icon: '🚛', desc: 'LCV, HCV and multi-utility vehicles' }
+    { id: 'bikes', name: 'Bikes (ICE — Petrol/Diesel)', icon: 'bike', desc: 'Petrol and diesel motorcycles' },
+    { id: 'scooters', name: 'Scooters (ICE — Petrol)', icon: 'bike', desc: 'Petrol scooters' },
+    { id: 'petrol_hatchback', name: 'Petrol Hatchback', icon: 'car-front', desc: 'Hatchback with a petrol engine' },
+    { id: 'diesel_hatchback', name: 'Diesel Hatchback', icon: 'car-front', desc: 'Hatchback with a diesel engine' },
+    { id: 'petrol_sedan', name: 'Petrol Sedan', icon: 'car-front', desc: 'Sedan with a petrol engine' },
+    { id: 'diesel_sedan', name: 'Diesel Sedan', icon: 'car-front', desc: 'Sedan with a diesel engine' },
+    { id: 'suvs_mpvs', name: 'SUVs & MPVs', icon: 'car', desc: 'SUVs and MPVs' },
+    { id: 'ev_bikes', name: 'EV Bikes (Electric)', icon: 'battery-charging', desc: 'Electric motorcycles' },
+    { id: 'ev_scooters', name: 'EV Scooters (Electric)', icon: 'battery-charging', desc: 'Electric scooters' },
+    { id: 'ev_cars', name: 'EV Cars (Electric)', icon: 'battery-charging', desc: 'Electric cars and SUVs' },
+    { id: 'commercial', name: 'Commercial Vehicles (LCV/HCV/Multi-Utility)', icon: 'truck', desc: 'LCV, HCV and multi-utility vehicles' }
   ],
 
   // Brands and their Models mapped by Vehicle Type
@@ -123,35 +126,35 @@ const VME_DATA = {
       id: 'emergency',
       name: 'Emergency Service',
       badge: 'Roadside Assistance',
-      icon: '🚨',
+      icon: 'siren',
       desc: 'Breakdowns, roadside assistance, towing, and vehicle recovery'
     },
     {
       id: 'basic',
       name: 'Basic Services',
       badge: 'Routine Maintenance',
-      icon: '🛢️',
+      icon: 'fuel',
       desc: 'Routine maintenance for ICE and electric vehicles'
     },
     {
       id: 'repair',
       name: 'Repair',
       badge: 'Mechanical, Electrical & Diagnostic',
-      icon: '🔧',
+      icon: 'wrench',
       desc: 'Mechanical, electrical, and vehicle diagnostic work'
     },
     {
       id: 'replace',
       name: 'Replace',
       badge: 'Parts quoted separately',
-      icon: '⚙️',
+      icon: 'settings-2',
       desc: 'Replacement parts are quoted separately for customer approval'
     },
     {
       id: 'safety_comfort',
       name: 'Safety & Comfort',
       badge: 'Safety & Comfort',
-      icon: '❄️',
+      icon: 'snowflake',
       desc: 'Driving safety, comfort, cabin, and bodywork services'
     }
   ],
@@ -262,7 +265,7 @@ const VME_DATA = {
       experience: '9 Years',
       workshop: 'Sharma Auto & Multi-Brand Garage',
       phone: '+91 98452 11029',
-      avatar: '👨‍🔧',
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80',
       specializations: ['Bikes', 'Cars', 'Commercial Vehicles', 'Engine & Clutch Specialist'],
       distanceKm: 1.8,
       etaMins: 7,
@@ -280,7 +283,7 @@ const VME_DATA = {
       experience: '7 Years',
       workshop: 'Vikas Volt EV & Auto Electricals',
       phone: '+91 97410 44821',
-      avatar: '⚡👨‍💻',
+      avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=80',
       specializations: ['EV Cars & SUVs', 'EV Scooters', 'Battery Pack BMS', 'Wiring & ECU Diagnostics'],
       distanceKm: 2.3,
       etaMins: 9,
@@ -298,7 +301,7 @@ const VME_DATA = {
       experience: '12 Years',
       workshop: 'Apex Motor Works',
       phone: '+91 99001 88342',
-      avatar: '🔧👨‍🔧',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=160&q=80',
       specializations: ['Cars', 'SUVs', 'Brake Systems', 'Suspension Overhaul'],
       distanceKm: 3.1,
       etaMins: 12,
@@ -316,7 +319,7 @@ const VME_DATA = {
       experience: '6 Years',
       workshop: 'ElectroDrive Green Mobility Lab',
       phone: '+91 98865 32910',
-      avatar: '⚡👩‍🔧',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=160&q=80',
       specializations: ['EV Bikes', 'EV Scooters', 'High-Voltage Inverters', 'Sensors & CAN-Bus'],
       distanceKm: 2.9,
       etaMins: 11,
